@@ -1593,6 +1593,80 @@
         <button class="btn btn-outline" style="padding: 6px 12px; font-size: 0.75rem;" onclick="toggleAdminPortalView()"><i class="fa-solid fa-lock"></i> Admin</button>
     </footer>
 
+    <!-- Firebase SDK Modular Scripts -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { 
+            getFirestore, 
+            collection, 
+            addDoc, 
+            onSnapshot, 
+            deleteDoc, 
+            doc 
+        } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+        // Replace the placeholders below with your actual Firebase project config credentials
+        const firebaseConfig = {
+             apiKey: "AIzaSyAARDkVistBqPQaKfSEGJ9_VxlvcR04q8w",
+                authDomain: "cacao-and-crust.firebaseapp.com",
+                projectId: "cacao-and-crust",
+                storageBucket: "cacao-and-crust.firebasestorage.app",
+                messagingSenderId: "51659051122",
+                appId: "1:51659051122:web:375ee049e59e6e7f0ef2eb"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        // Firestore real-time listeners for Admin Bookings and Customer Reviews
+        onSnapshot(collection(db, "orders"), (snapshot) => {
+            adminBookingsDb = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+            compileAdminReports();
+        });
+
+        onSnapshot(collection(db, "reviews"), (snapshot) => {
+            customerReviewsArray = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+            renderCustomerReviews();
+            if (document.getElementById('admin-dashboard-view').style.display === 'block') {
+                compileAdminReports();
+            }
+        });
+
+        // Expose Firebase DB actions globally for existing UI handler functions
+        window.saveOrderToFirebase = async function(orderData) {
+            try {
+                await addDoc(collection(db, "orders"), orderData);
+            } catch (e) {
+                console.error("Error adding document to Firebase: ", e);
+            }
+        };
+
+        window.saveReviewToFirebase = async function(reviewData) {
+            try {
+                await addDoc(collection(db, "reviews"), reviewData);
+            } catch (e) {
+                console.error("Error adding review to Firebase: ", e);
+            }
+        };
+
+        window.deleteOrderFromFirebase = async function(id) {
+            try {
+                await deleteDoc(doc(db, "orders", id));
+            } catch (e) {
+                console.error("Error removing order from Firebase: ", e);
+            }
+        };
+
+        window.deleteReviewFromFirebase = async function(id) {
+            try {
+                await deleteDoc(doc(db, "reviews", id));
+            } catch (e) {
+                console.error("Error removing review from Firebase: ", e);
+            }
+        };
+    </script>
+
     <script>
         const TARGET_PHONE_WHATSAPP = "8220131629"; 
         const OFFICIAL_UPI_ID = "cacaoandcrust-1@okaxis";
@@ -1618,48 +1692,8 @@
         let globalTargetSaturdayDateString = "";
         let isSlotClosed = false;
 
-        let adminBookingsDb = [
-            {
-                timestamp: "17 Jul 2026, 08:30 PM",
-                name: "Rahul Kumar",
-                phone: "9876543210",
-                items: "Assorted Box of 4",
-                flavors: { "Nutella Lava": 2, "Biscoff Bomb": 2 },
-                mode: "delivery",
-                address: "No. 12, Main Road, Chennai - 600001",
-                utr: "TRANS99210088",
-                amount: 349
-            },
-            {
-                timestamp: "17 Jul 2026, 08:45 PM",
-                name: "Priya Sundar",
-                phone: "9444123456",
-                items: "Assorted Box of 6",
-                flavors: { "Amsterdam Dark": 6 },
-                mode: "pickup",
-                address: "Self-Pickup from Pammal Cafe",
-                utr: "TRANS55441122",
-                amount: 399
-            }
-        ];
-
-        let customerReviewsArray = [
-            {
-                name: "Aarti S.",
-                rating: 5,
-                text: "The Nutella Lava cookie was absolutely insane! Warm, gooey, and packed with chocolate. Ordering again for next weekend."
-            },
-            {
-                name: "Karthik Raja",
-                rating: 5,
-                text: "Picked up my box from Warzone Cafe Pammal. Freshly baked perfection! The Classic Brownbutter Chocochip is 10/10."
-            },
-            {
-                name: "Deepika M.",
-                rating: 5,
-                text: "Best gourmet cookies in Chennai hands down. Biscoff Bomb is an absolute dream!"
-            }
-        ];
+        let adminBookingsDb = [];
+        let customerReviewsArray = [];
 
         function configureCutoffLogic() {
             const now = new Date();
@@ -1946,7 +1980,7 @@
             let orderDate = new Date();
             let timestampLabel = `${orderDate.getDate()} ${formatDateString(orderDate).split(' ')[1]} ${orderDate.getFullYear()}, ${orderDate.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}`;
 
-            adminBookingsDb.push({
+            const orderPayload = {
                 timestamp: timestampLabel,
                 name: clientNameString,
                 phone: clientPhoneString,
@@ -1956,9 +1990,11 @@
                 address: physicalAddressString,
                 utr: transactionRefString,
                 amount: finalComputedSum
-            });
+            };
 
-            compileAdminReports();
+            if (window.saveOrderToFirebase) {
+                window.saveOrderToFirebase(orderPayload);
+            }
 
             let stringBuilderMessage = `*🍪 NEW ORDER CONFIRMED — CACAO & CRUST 🍪*\n\n`;
             stringBuilderMessage += `*👤 CLIENT LOGS:*\n`;
@@ -2014,17 +2050,27 @@
         }
 
         function deleteAdminOrder(index) {
-            if (confirm(`Are you sure you want to delete order #${index + 1} for ${adminBookingsDb[index].name}?`)) {
-                adminBookingsDb.splice(index, 1);
-                compileAdminReports();
+            const targetOrder = adminBookingsDb[index];
+            if (confirm(`Are you sure you want to delete order #${index + 1} for ${targetOrder.name}?`)) {
+                if (targetOrder.id && window.deleteOrderFromFirebase) {
+                    window.deleteOrderFromFirebase(targetOrder.id);
+                } else {
+                    adminBookingsDb.splice(index, 1);
+                    compileAdminReports();
+                }
             }
         }
 
         function deleteAdminReview(index) {
-            if (confirm(`Are you sure you want to delete the review by ${customerReviewsArray[index].name}?`)) {
-                customerReviewsArray.splice(index, 1);
-                renderCustomerReviews();
-                compileAdminReports();
+            const targetReview = customerReviewsArray[index];
+            if (confirm(`Are you sure you want to delete the review by ${targetReview.name}?`)) {
+                if (targetReview.id && window.deleteReviewFromFirebase) {
+                    window.deleteReviewFromFirebase(targetReview.id);
+                } else {
+                    customerReviewsArray.splice(index, 1);
+                    renderCustomerReviews();
+                    compileAdminReports();
+                }
             }
         }
 
@@ -2178,11 +2224,10 @@
             const rating = parseInt(document.getElementById('reviewer-rating').value);
             const text = document.getElementById('reviewer-text').value;
 
-            customerReviewsArray.unshift({ name, rating, text });
-            renderCustomerReviews();
+            const reviewPayload = { name, rating, text };
 
-            if(document.getElementById('admin-dashboard-view').style.display === 'block') {
-                compileAdminReports();
+            if (window.saveReviewToFirebase) {
+                window.saveReviewToFirebase(reviewPayload);
             }
 
             document.getElementById('customer-review-form').reset();
