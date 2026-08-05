@@ -845,6 +845,62 @@
             margin-bottom: 12px;
         }
 
+        /* --- Pincode Checker Bar --- */
+        .pincode-checker-box {
+            grid-column: 1 / -1;
+            background: #FFFBF4;
+            border: 1px solid #F4E3C9;
+            padding: 15px;
+            border-radius: 12px;
+            margin-bottom: 5px;
+        }
+        .pincode-checker-box label {
+            display: block;
+            font-weight: 600;
+            font-size: 0.88rem;
+            color: var(--primary);
+            margin-bottom: 8px;
+        }
+        .pincode-input-group {
+            display: flex;
+            gap: 10px;
+        }
+        .pincode-input-group input {
+            flex: 1;
+            padding: 10px 14px;
+            border: 1px solid #F4E3C9;
+            border-radius: 8px;
+            font-size: 0.9rem;
+        }
+        .pincode-btn {
+            background: var(--primary);
+            color: var(--accent-soft);
+            border: 1px solid var(--accent);
+            padding: 10px 18px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            white-space: nowrap;
+        }
+        .pincode-btn:hover {
+            background: var(--accent);
+            color: var(--primary);
+        }
+        .pincode-status-msg {
+            margin-top: 10px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            display: none;
+        }
+        .pincode-status-msg.success {
+            color: var(--success);
+        }
+        .pincode-status-msg.error {
+            color: var(--danger);
+        }
+
         .checkout-form {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
@@ -1483,6 +1539,17 @@
                     <input type="text" id="buyer-name" placeholder="Your Name" required>
                     <input type="tel" id="buyer-phone" placeholder="WhatsApp Phone Number" required>
                     <input type="text" id="payment-utr" placeholder="GPay / UPI Transaction ID or UTR Number" required>
+                    
+                    <!-- Pincode Check Bar -->
+                    <div class="pincode-checker-box">
+                        <label for="check-pincode-input"><i class="fa-solid fa-location-dot" style="color: var(--accent);"></i> Check Delivery Availability</label>
+                        <div class="pincode-input-group">
+                            <input type="text" id="check-pincode-input" placeholder="Enter 6-digit Pincode (e.g. 600001)" maxlength="6">
+                            <button type="button" class="pincode-btn" onclick="verifyPincodeDeliverability()">Check Pincode</button>
+                        </div>
+                        <div id="pincode-status-msg" class="pincode-status-msg"></div>
+                    </div>
+
                     <textarea id="delivery-address" rows="3" placeholder="Complete Delivery Address in Chennai including Pincode (Leave blank if choosing Self-Pickup from WARZONE Gaming Cafe Pammal)"></textarea>
                 </div>
                 
@@ -1696,6 +1763,29 @@
 
         let adminBookingsDb = [];
         let customerReviewsArray = [];
+
+        function verifyPincodeDeliverability() {
+            const inputEl = document.getElementById('check-pincode-input');
+            const statusEl = document.getElementById('pincode-status-msg');
+            const pincode = inputEl.value.trim();
+
+            if (!/^\d{6}$/.test(pincode)) {
+                statusEl.className = 'pincode-status-msg error';
+                statusEl.style.display = 'block';
+                statusEl.innerText = 'Please enter a valid 6-digit pincode.';
+                return;
+            }
+
+            if (pincode.startsWith('600')) {
+                statusEl.className = 'pincode-status-msg success';
+                statusEl.style.display = 'block';
+                statusEl.innerText = '✓ Great news! Deliveries are available to this pincode in Chennai.';
+            } else {
+                statusEl.className = 'pincode-status-msg error';
+                statusEl.style.display = 'block';
+                statusEl.innerText = 'We are currently not taking orders outside Chennai.';
+            }
+        }
 
         function configureCutoffLogic() {
             const now = new Date();
