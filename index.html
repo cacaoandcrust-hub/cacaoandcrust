@@ -6,9 +6,11 @@
     <title>Cacao & Crust | Artisanal Freshly Baked Cookies in Chennai</title>
     <link rel="icon" type="image/png" href="favicon.png">
     <!-- Premium Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght=300;400;500;600;700&family=Playfair+Display:ital,wght=0,600;0,700;0,800;1,400;1,500;1,600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,600;0,700;0,800;1,400;1,500;1,600&display=swap" rel="stylesheet">
     <!-- FontAwesome for Premium Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Razorpay Checkout Script SDK -->
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
     
     <style>
         :root {
@@ -261,7 +263,7 @@
 
         /* --- Hanging Sign Badge --- */
         .hanging-sign-wrapper {
-            display: none; /* Controlled dynamically via JS */
+            display: none; 
             flex-direction: column;
             align-items: center;
             justify-content: center;
@@ -371,7 +373,6 @@
             color: var(--primary);
         }
 
-        /* Post-Cutoff Banner in Admin */
         .cutoff-status-alert {
             background: #21100B;
             color: var(--accent-soft);
@@ -459,35 +460,6 @@
         }
         .report-table tr:hover {
             background-color: #FAF6F0;
-        }
-        .duplicate-upi-row {
-            background-color: #FFEBEE !important;
-            border-left: 5px solid var(--danger);
-        }
-        .badge-warning {
-            background-color: var(--danger);
-            color: white;
-            padding: 4px 8px;
-            border-radius: 6px;
-            font-size: 0.75rem;
-            font-weight: 700;
-            display: inline-flex;
-            align-items: center;
-            gap: 4px;
-        }
-        .btn-danger {
-            background-color: var(--danger);
-            color: var(--white);
-            border: none;
-            padding: 6px 12px;
-            border-radius: 6px;
-            cursor: pointer;
-            font-weight: 600;
-            font-size: 0.75rem;
-            transition: background 0.2s ease;
-        }
-        .btn-danger:hover {
-            background-color: #B71C1C;
         }
 
         /* --- Main Layout Grid --- */
@@ -763,7 +735,6 @@
             gap: 12px;
         }
 
-        /* --- Payment & Ordering Instructions --- */
         .payment-instructions-box {
             background: #FFFBF4;
             border-left: 4px solid var(--accent);
@@ -918,8 +889,8 @@
             grid-column: 1 / -1;
         }
 
-        /* --- Payment UPI & QR Container --- */
-        .payment-upi-container {
+        /* --- Payment Breakdown Card --- */
+        .payment-breakdown-wrapper {
             background: #FFFBF2; 
             border: 1px dashed var(--accent); 
             padding: clamp(20px, 4vw, 30px) 15px; 
@@ -932,48 +903,6 @@
             gap: 15px;
         }
 
-        .upi-string-wrapper {
-            display: inline-flex;
-            align-items: center;
-            background: #FFFFFF;
-            padding: 8px 14px;
-            border-radius: 30px;
-            border: 1px solid #F4E3C9;
-            gap: 10px;
-            margin: 10px 0 15px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.03);
-            flex-wrap: wrap;
-            justify-content: center;
-            max-width: 100%;
-        }
-        .upi-id-text {
-            font-size: clamp(0.95rem, 3vw, 1.3rem);
-            font-weight: 700;
-            color: var(--primary);
-            letter-spacing: 0.5px;
-            word-break: break-all;
-        }
-        .copy-upi-btn {
-            background: var(--primary);
-            color: var(--white);
-            border: none;
-            padding: 6px 12px;
-            border-radius: 20px;
-            font-size: 0.75rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            display: inline-flex;
-            align-items: center;
-            gap: 5px;
-            white-space: nowrap;
-        }
-        .copy-upi-btn:hover {
-            background: var(--accent-hover);
-            color: var(--white);
-        }
-
         .payment-breakdown-card {
             width: 100%;
             max-width: 400px;
@@ -981,7 +910,7 @@
             border: 1px solid #F4E3C9;
             border-radius: 12px;
             padding: 15px;
-            margin-bottom: 15px;
+            margin-bottom: 5px;
             text-align: left;
         }
         .breakdown-line {
@@ -998,15 +927,6 @@
             font-weight: 700;
             font-size: 1.1rem;
             color: #2E7D32;
-        }
-
-        .payment-qr-image {
-            max-width: 200px;
-            width: 100%;
-            height: auto;
-            border-radius: 12px;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.06);
-            border: 4px solid #fff;
         }
 
         /* --- Reviews Section Styles --- */
@@ -1207,7 +1127,6 @@
             color: var(--accent);
         }
 
-        /* Responsive Breakpoints */
         @media(max-width: 600px) {
             header {
                 justify-content: space-between;
@@ -1256,7 +1175,6 @@
         </div>
         <div class="nav-actions">
             <a href="https://www.instagram.com/cacao_and_crust_" target="_blank" class="insta-nav-link"><i class="fa-brands fa-instagram"></i> @cacao_and_crust_</a>
-            
             <button class="cart-icon-btn" onclick="scrollToElement('cart-section')" aria-label="Open Cart">
                 <i class="fa-solid fa-cookie-bite"></i>
                 <span class="cart-count" id="cart-count">0</span>
@@ -1271,7 +1189,6 @@
             <p class="section-subtitle">Secure portal to manage live booking data, flavor demand metrics, customer reviews, and sales analytics.</p>
         </div>
 
-        <!-- Password Screen -->
         <div id="admin-login-view" class="admin-login-box">
             <i class="fa-solid fa-shield-halved" style="font-size: 3rem; color: var(--accent); margin-bottom: 15px;"></i>
             <input type="password" id="admin-pass-field" placeholder="Enter Portal Passcode">
@@ -1279,10 +1196,7 @@
             <p style="font-size: 0.75rem; color: var(--text-light); margin-top: 10px;">Authorized Access Only</p>
         </div>
 
-        <!-- Dashboard View -->
         <div id="admin-dashboard-view" style="display: none;">
-            
-            <!-- Post-Cutoff Dynamic Callout Banner -->
             <div class="cutoff-status-alert" id="admin-cutoff-alert" style="display:none;">
                 <div>
                     <h4><i class="fa-solid fa-circle-check"></i> ORDER SLOT CLOSED (Wednesday 11:59 PM Window Reached)</h4>
@@ -1308,19 +1222,13 @@
                     <h5>Deliveries</h5>
                     <p id="metric-delivery-count" style="color: #0288D1;">0</p>
                 </div>
-                <div class="metric-card" style="border-color: #FFCDD2;">
-                    <h5>Flagged UPIs</h5>
-                    <p id="metric-flagged-count" style="color: var(--danger);">0</p>
-                </div>
             </div>
 
-            <!-- Flavor Bake Report -->
             <div class="flavor-stats-box">
                 <h4><i class="fa-solid fa-cookie"></i> End of Order Window — Flavor Bake Report</h4>
                 <div class="flavor-stats-grid" id="admin-flavor-stats-container"></div>
             </div>
 
-            <!-- Monthly Sales Report -->
             <div class="monthly-sales-box">
                 <h4><i class="fa-solid fa-chart-line"></i> Monthly Sales & Performance Report</h4>
                 <div class="admin-metrics" style="margin-bottom: 0;">
@@ -1339,7 +1247,6 @@
                 </div>
             </div>
 
-            <!-- Review Moderation Section -->
             <div class="admin-reviews-box">
                 <h4><i class="fa-solid fa-comments"></i> Customer Reviews Moderation</h4>
                 <div class="table-responsive">
@@ -1370,8 +1277,7 @@
                             <th>Customer Details</th>
                             <th>Items Curated</th>
                             <th>Fulfillment & Address</th>
-                            <th>UPI / UTR ID</th>
-                            <th>Invoice</th>
+                            <th>Razorpay Payment ID</th>
                             <th>Action</th>
                         </tr>
                     </thead>
@@ -1401,7 +1307,6 @@
 
     <div class="container">
 
-        <!-- Dynamic Hanging Sign (Displayed on Wednesday 11:59 PM till end of week) -->
         <div class="hanging-sign-wrapper" id="hanging-sign-container">
             <div class="hanging-hook"></div>
             <div class="hanging-string"></div>
@@ -1411,7 +1316,6 @@
             </div>
         </div>
 
-        <!-- Box Selection Grid -->
         <div id="box-options"></div>
         <div class="section-header" style="margin-top: 20px;">
             <h2 class="section-title">Select Your <em>Assorted</em> Box Size</h2>
@@ -1438,8 +1342,8 @@
                     <p style="color: var(--text-light); font-size:0.95rem; margin-top:10px;">Select any 6 decadent pieces. Perfect for premium gifting or absolute weekend indulgence.</p>
                 </div>
                 <div>
-                    <div class="price">₹399</div>
-                    <button class="btn" onclick="startBuildingBox(6, 399)">Build Box of 6</button>
+                    <div class="price">₹449</div>
+                    <button class="btn" onclick="startBuildingBox(6, 449)">Build Box of 6</button>
                 </div>
             </div>
         </div>
@@ -1475,43 +1379,31 @@
                 <h4><i class="fa-solid fa-circle-info" style="color: var(--accent);"></i> How to Complete Your Order:</h4>
                 <ul class="instruction-steps">
                     <li><span>1</span> Check your final summary breakdown and choose either self-pickup or door delivery fulfillment down below.</li>
-                    <li><span>2</span> Copy our official UPI ID string using the copy utility button below or scan the payment QR asset card.</li>
-                    <li><span>3</span> Complete the total calculated payment using your preferred application, then paste your transaction UTR reference number.</li>
-                    <li><span>4</span> Send your payment screenshot to the number.</li>
-                    <li><span>5</span> <strong>Once the payment is verified, your order will be officially confirmed!</strong></li>
+                    <li><span>2</span> Fill out your customer details and address correctly.</li>
+                    <li><span>3</span> Click the <strong>Pay securely with Razorpay</strong> button to launch the secure instant payment popup.</li>
+                    <li><span>4</span> Once payment succeeds, your order details are securely registered and synced instantly!</li>
                 </ul>
             </div>
 
             <div class="delivery-options">
                 <h4 style="margin-bottom:15px; font-family:'Playfair Display', serif; font-size:1.2rem;">Fulfillment Preferences:</h4>
                 <label style="display:flex; align-items:flex-start; gap:12px; margin-bottom:12px; cursor:pointer;">
-                    <input type="radio" name="delivery" value="pickup" checked onchange="calculateFinalInvoiceTotal()"> 
+                    <input type="radio" name="delivery" value="pickup" checked onchange="toggleFulfillmentFields()"> 
                     <span>Self Pickup from <a href="https://www.google.com/maps/place/WARZONE+Gaming+cafe/@12.9774547,80.1376503,17z/data=!3m1!4b1!4m6!3m5!1s0x3a525f1ecae456df:0x8798cd4e56d1b89f!8m2!3d12.9774547!4d80.1402252!16s%2Fg%2F11zcp3cbhn?entry=ttu&g_ep=EgoyMDI2MDcxMy4wIKXMDSoASAFQAw%3D%3D" target="_blank" style="color: var(--primary); font-weight:700; text-decoration:underline;">WARZONE Gaming Cafe Pammal</a> (<span class="fulfillment-day-label">Saturday</span> @ 11:00 AM) — <span style="color: #2E7D32; font-weight:600;">FREE</span></span>
                 </label>
                 <label style="display:flex; align-items:flex-start; gap:12px; cursor:pointer;">
-                    <input type="radio" name="delivery" value="delivery" onchange="calculateFinalInvoiceTotal()"> 
+                    <input type="radio" name="delivery" value="delivery" onchange="toggleFulfillmentFields()"> 
                     <span>Delivery Across Chennai — <span style="font-weight: 700;">+ ₹50 Shipping</span><br><small style="color: var(--text-light); margin-top:2px; display:block;">Will be delivered between Saturday to Monday</small></span>
                 </label>
             </div>
 
-            <!-- Custom Note Card -->
             <div class="custom-note-card">
                 <h4><i class="fa-solid fa-heart" style="color: #E63946;"></i> Write a Note for Your Loved Ones</h4>
                 <p>Sending this box as a gift? Type a heartfelt message below, and we will include a custom printed gift card inside your cookie box!</p>
                 <textarea id="custom-gift-note" rows="3" placeholder="Write your personalized note here... (e.g., Happy Birthday Rahul! Hope you enjoy these gooey cookies! Hugs, Priya)"></textarea>
             </div>
 
-            <div class="payment-upi-container">
-                <div>
-                    <p style="color: var(--text-dark); font-weight:600;"><i class="fa-solid fa-paste" style="color: var(--accent);"></i> Official UPI ID:</p>
-                    <div class="upi-string-wrapper">
-                        <span class="upi-id-text" id="target-upi-string">cacaoandcrust-1@okaxis</span>
-                        <button type="button" class="copy-upi-btn" onclick="copyUPIAddressToClipboard()" id="copy-btn-feedback">
-                            <i class="fa-regular fa-copy"></i> Copy ID
-                        </button>
-                    </div>
-                </div>
-
+            <div class="payment-breakdown-wrapper">
                 <div class="payment-breakdown-card">
                     <div class="breakdown-line">
                         <span>Cookies Subtotal:</span>
@@ -1522,26 +1414,20 @@
                         <span>₹<span id="breakdown-shipping">0</span></span>
                     </div>
                     <div class="breakdown-line total-row">
-                        <span>Total to Pay:</span>
+                        <span>Total Payable:</span>
                         <span>₹<span id="breakdown-total">0</span></span>
                     </div>
-                </div>
-
-                <div>
-                    <p style="margin-bottom: 12px; color: var(--text-dark); font-weight:600;"><i class="fa-solid fa-qrcode" style="color: var(--accent);"></i> Scan QR Code to Pay:</p>
-                    <img class="payment-qr-image" src="qr.jpeg" alt="Cacao and Crust UPI QR Code">
                 </div>
             </div>
 
             <h4 style="color: var(--primary); margin-bottom: 20px; font-size: 1.3rem;">Fulfillment & Registry Data</h4>
-            <form id="whatsapp-routing-form" onsubmit="processOrderDispatch(event)">
+            <form id="checkout-form-container" onsubmit="initiateRazorpayPayment(event)">
                 <div class="checkout-form">
                     <input type="text" id="buyer-name" placeholder="Your Name" required>
+                    <input type="email" id="buyer-email" placeholder="Email Address" required>
                     <input type="tel" id="buyer-phone" placeholder="WhatsApp Phone Number" required>
-                    <input type="text" id="payment-utr" placeholder="GPay / UPI Transaction ID or UTR Number" required>
                     
-                    <!-- Pincode Check Bar -->
-                    <div class="pincode-checker-box">
+                    <div class="pincode-checker-box" id="pincode-section-wrapper" style="display: none;">
                         <label for="check-pincode-input"><i class="fa-solid fa-location-dot" style="color: var(--accent);"></i> Check Delivery Availability</label>
                         <div class="pincode-input-group">
                             <input type="text" id="check-pincode-input" placeholder="Enter 6-digit Pincode (e.g. 600001)" maxlength="6">
@@ -1550,19 +1436,13 @@
                         <div id="pincode-status-msg" class="pincode-status-msg"></div>
                     </div>
 
-                    <textarea id="delivery-address" rows="3" placeholder="Complete Delivery Address in Chennai including Pincode (Leave blank if choosing Self-Pickup from WARZONE Gaming Cafe Pammal)"></textarea>
-                </div>
-                
-                <div style="margin-top: 25px; background: #FFFBF4; border: 1px dashed #25D366; padding: 15px; border-radius: 12px; text-align: center;">
-                    <p style="font-size: 0.88rem; color: var(--primary); font-weight: 600;">
-                        <i class="fa-brands fa-whatsapp" style="color: #25D366; font-size: 1.1rem;"></i> Reminder: Once WhatsApp opens, please attach your <strong>Payment Screenshot</strong> to confirm your pre-order slot!
-                    </p>
+                    <textarea id="delivery-address" rows="3" placeholder="Complete Delivery Address in Chennai including Pincode" style="display: none;"></textarea>
                 </div>
 
-                <div style="margin-top: 25px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px; border-top: 2px solid #FAF6F0; padding-top: 20px;">
-                    <span style="font-size: 1.4rem; font-weight: 700; color: #2E7D32;">Amount Paid: ₹<span id="invoice-final-sum">0</span></span>
-                    <button type="submit" class="btn" style="background: #25D366; border-color: #25D366; color: white; padding: 14px 28px; font-size: 0.9rem; font-weight:700;">
-                        <i class="fa-brands fa-whatsapp" style="font-size:1.1rem;"></i> Transmit Details to WhatsApp
+                <div style="margin-top: 30px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px; border-top: 2px solid #FAF6F0; padding-top: 20px;">
+                    <span style="font-size: 1.4rem; font-weight: 700; color: #2E7D32;">Total Amount: ₹<span id="invoice-final-sum">0</span></span>
+                    <button type="submit" class="btn" style="background: var(--accent); border-color: var(--accent); color: var(--primary); padding: 14px 28px; font-size: 0.9rem; font-weight:700;">
+                        <i class="fa-solid fa-shield-halved" style="font-size:1.1rem;"></i> Pay Securely with Razorpay
                     </button>
                 </div>
             </form>
@@ -1605,7 +1485,6 @@
             </div>
         </section>
 
-        <!-- Why Choose Us Section -->
         <div class="section-header">
             <h2 class="section-title">What Makes Us <em>Superior</em></h2>
         </div>
@@ -1627,7 +1506,6 @@
             </div>
         </div>
 
-        <!-- Bulk Promo Curation Section -->
         <section class="bulk-section">
             <h3>Planning a Celebration or Corporate Event?</h3>
             <p>We curate beautiful catering setups, customized miniature boxes, wedding return favors, and specialty bulk cookie menus tailored completely to your aesthetic needs.</p>
@@ -1638,14 +1516,13 @@
 
     </div>
 
-    <!-- Luxury Page Footer -->
     <footer>
         <h3>CACAO & CRUST</h3>
         <p>Handcrafting the most indulgent bakery-style cookies in Chennai. Pure chocolate, brown butter, small batches, zero compromise.</p>
         <p style="font-weight: 600; color: var(--accent-soft); font-size: 1.1rem; margin: 10px 0;">
-            UPI Payment ID: cacaoandcrust-1@okaxis
+            Secured via Razorpay Payment Gateway
         </p>
-        <p style="margin: bottom 5px;px;">
+        <p>
             <a href="https://www.instagram.com/cacao_and_crust_" target="_blank" style="color: #E1306C; font-weight: 700; text-decoration: none; font-size: 1rem;">
                 <i class="fa-brands fa-instagram"></i> Follow us @cacao_and_crust_
             </a>
@@ -1673,36 +1550,29 @@
             doc 
         } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
-        // Replace the placeholders below with your actual Firebase project config credentials
         const firebaseConfig = {
             apiKey: "AIzaSyA3TGhWOT7phqfpbYzThFe-Couhxj78f6U",
             authDomain: "cacaoandcrust-49eb9.firebaseapp.com",
             projectId: "cacaoandcrust-49eb9",
             storageBucket: "cacaoandcrust-49eb9.firebasestorage.app",
             messagingSenderId: "851462987688",
-            ppId: "1:851462987688:web:6f990f41bdad7ba8af479d",
+            appId: "1:851462987688:web:6f990f41bdad7ba8af479d",
             measurementId: "G-GJ39Z3DYLE"
         };
 
-        // Initialize Firebase
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
 
-        // Firestore real-time listeners for Admin Bookings and Customer Reviews
         onSnapshot(collection(db, "orders"), (snapshot) => {
-            adminBookingsDb = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-            compileAdminReports();
+            window.adminBookingsDb = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+            if(typeof compileAdminReports === 'function') compileAdminReports();
         });
 
         onSnapshot(collection(db, "reviews"), (snapshot) => {
-            customerReviewsArray = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-            renderCustomerReviews();
-            if (document.getElementById('admin-dashboard-view').style.display === 'block') {
-                compileAdminReports();
-            }
+            window.customerReviewsArray = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+            if(typeof renderCustomerReviews === 'function') renderCustomerReviews();
         });
 
-        // Expose Firebase DB actions globally for existing UI handler functions
         window.saveOrderToFirebase = async function(orderData) {
             try {
                 await addDoc(collection(db, "orders"), orderData);
@@ -1738,7 +1608,6 @@
 
     <script>
         const TARGET_PHONE_WHATSAPP = "8220131629"; 
-        const OFFICIAL_UPI_ID = "cacaoandcrust-1@okaxis";
         
         const MASTER_MENU_FLAVORS = [
             { name: "Nutella Lava", desc: "Thick golden brown-butter cookie dough holding a direct molten volcanic center of rich hazelnut chocolate paste." },
@@ -1761,41 +1630,62 @@
         let globalTargetSaturdayDateString = "";
         let isSlotClosed = false;
 
-        let adminBookingsDb = [];
-        let customerReviewsArray = [];
+        window.adminBookingsDb = [];
+        window.customerReviewsArray = [];
+
+        function toggleFulfillmentFields() {
+            const activeFulfillmentSelection = document.querySelector('input[name="delivery"]:checked').value;
+            const pincodeSection = document.getElementById('pincode-section-wrapper');
+            const addressInput = document.getElementById('delivery-address');
+
+            if (activeFulfillmentSelection === 'delivery') {
+                pincodeSection.style.display = 'block';
+            } else {
+                pincodeSection.style.display = 'none';
+                addressInput.style.display = 'none';
+                addressInput.value = '';
+                document.getElementById('pincode-status-msg').style.display = 'none';
+                document.getElementById('check-pincode-input').value = '';
+            }
+            calculateFinalInvoiceTotal();
+        }
 
         function verifyPincodeDeliverability() {
             const inputEl = document.getElementById('check-pincode-input');
             const statusEl = document.getElementById('pincode-status-msg');
+            const addressInput = document.getElementById('delivery-address');
             const pincode = inputEl.value.trim();
 
             if (!/^\d{6}$/.test(pincode)) {
                 statusEl.className = 'pincode-status-msg error';
                 statusEl.style.display = 'block';
                 statusEl.innerText = 'Please enter a valid 6-digit pincode.';
+                addressInput.style.display = 'none';
                 return;
             }
 
             if (pincode.startsWith('600')) {
                 statusEl.className = 'pincode-status-msg success';
                 statusEl.style.display = 'block';
-                statusEl.innerText = '✓ Great news! Deliveries are available to this pincode in Chennai.';
+                statusEl.innerText = '✓ Great news! Deliveries are available to this pincode in Chennai. Please enter your full address below.';
+                addressInput.style.display = 'block';
+                addressInput.required = true;
             } else {
                 statusEl.className = 'pincode-status-msg error';
                 statusEl.style.display = 'block';
                 statusEl.innerText = 'We are currently not taking orders outside Chennai.';
+                addressInput.style.display = 'none';
             }
         }
 
         function configureCutoffLogic() {
             const now = new Date();
-            const currentDayIndex = now.getDay(); // 0 = Sun, 1 = Mon, 2 = Tue, 3 = Wed, 4 = Thu, 5 = Fri, 6 = Sat
+            const currentDayIndex = now.getDay(); 
             const banner = document.getElementById('announcement-banner');
             const hangingSign = document.getElementById('hanging-sign-container');
             
             let targetedSaturday = new Date();
             
-            // Cutoff is Wednesday at 11:59 PM (currentDayIndex >= 4: Thu, Fri, Sat or currentDayIndex === 0: Sun)
             if (currentDayIndex >= 4 || currentDayIndex === 0) { 
                 isSlotClosed = true;
                 let daysUntilNextSaturday = 7 + (6 - currentDayIndex);
@@ -1803,22 +1693,17 @@
                 targetedSaturday.setDate(now.getDate() + daysUntilNextSaturday);
                 
                 globalTargetSaturdayDateString = formatDateString(targetedSaturday);
-                
-                // Show hanging sign on Wednesday 11:59 PM onwards
                 hangingSign.style.display = 'flex';
                 
                 banner.classList.add('closed-banner');
-                banner.innerHTML = `⛔ <strong>Orders for this week are CLOSED (Window closed Wednesday 11:59 PM).</strong> Now happily accepting pre-bookings for NEXT week. Fulfillment window: Saturday (${globalTargetSaturdayDateString}) to Monday across Chennai!`;
+                banner.innerHTML = `⛔ <strong>Orders for this week are CLOSED.</strong> Pre-bookings open for NEXT week. Fulfillment window: Saturday (${globalTargetSaturdayDateString}) to Monday across Chennai!`;
             } else {
-                // Open window: Monday, Tuesday, Wednesday (before 11:59 PM)
                 isSlotClosed = false;
                 let daysToSaturday = 6 - currentDayIndex;
                 targetedSaturday.setDate(now.getDate() + daysToSaturday);
                 globalTargetSaturdayDateString = formatDateString(targetedSaturday);
                 
-                // Hide hanging sign while orders are active
                 hangingSign.style.display = 'none';
-                
                 banner.classList.remove('closed-banner');
                 banner.innerHTML = `<i class="fa-solid fa-calendar-days"></i> Order slots close every Wednesday at 11:59 PM. Delivered across Chennai (Saturday to Monday Window) or Fresh Saturday Pickup (${globalTargetSaturdayDateString}) at <a href="https://www.google.com/maps/place/WARZONE+Gaming+cafe/@12.9774547,80.1376503,17z/data=!3m1!4b1!4m6!3m5!1s0x3a525f1ecae456df:0x8798cd4e56d1b89f!8m2!3d12.9774547!4d80.1402252!16s%2Fg%2F11zcp3cbhn?entry=ttu&g_ep=EgoyMDI2MDcxMy4wIKXMDSoASAFQAw%3D%3D" target="_blank">WARZONE Pammal</a>!`;
             }
@@ -1834,21 +1719,6 @@
 
         function scrollToElement(id) {
             document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
-        }
-
-        function copyUPIAddressToClipboard() {
-            const upiString = document.getElementById('target-upi-string').innerText;
-            navigator.clipboard.writeText(upiString).then(() => {
-                const btn = document.getElementById('copy-btn-feedback');
-                btn.innerHTML = `<i class="fa-solid fa-check"></i> Copied!`;
-                btn.style.backgroundColor = "#2E7D32";
-                setTimeout(() => {
-                    btn.innerHTML = `<i class="fa-regular fa-copy"></i> Copy ID`;
-                    btn.style.backgroundColor = "var(--primary)";
-                }, 2000);
-            }).catch(err => {
-                alert("Failed to copy text string automatically.");
-            });
         }
 
         function startBuildingBox(size, price) {
@@ -2023,11 +1893,11 @@
             document.getElementById('breakdown-subtotal').innerText = combinedBaseSum;
             document.getElementById('breakdown-shipping').innerText = incrementalFulfillmentCost;
             document.getElementById('breakdown-total').innerText = trueFinalSum;
-            
             document.getElementById('invoice-final-sum').innerText = trueFinalSum;
         }
 
-        function processOrderDispatch(event) {
+        /* --- Razorpay Integration Core Handler --- */
+        function initiateRazorpayPayment(event) {
             event.preventDefault();
 
             if (checkoutCartItemsArray.length === 0) {
@@ -2050,16 +1920,50 @@
             }
 
             const clientNameString = document.getElementById('buyer-name').value;
+            const clientEmailString = document.getElementById('buyer-email').value;
             const clientPhoneString = document.getElementById('buyer-phone').value;
-            const transactionRefString = document.getElementById('payment-utr').value.trim();
+            const finalComputedSum = parseInt(document.getElementById('invoice-final-sum').innerText);
+
+            // Razorpay options configuration
+            var options = {
+                "key": "rzp_live_TNb4gMTP7UoaQN", // Replace with your actual Razorpay Test/Live Key ID
+                "amount": finalComputedSum * 100, // Amount in currency subunits (paise)
+                "currency": "INR",
+                "name": "Cacao & Crust",
+                "description": "Artisanal Freshly Baked Cookies Order",
+                "image": "favicon.png",
+                "handler": function (response) {
+                    // Executed successfully upon secure completion of payment
+                    const razorpayPaymentId = response.razorpay_payment_id;
+                    finalizeOrderSuccess(razorpayPaymentId);
+                },
+                "prefill": {
+                    "name": clientNameString,
+                    "email": clientEmailString,
+                    "contact": clientPhoneString
+                },
+                "theme": {
+                    "color": "#622a0f"
+                }
+            };
+
+            var rzpInstance = new Razorpay(options);
+            rzpInstance.open();
+        }
+
+        function finalizeOrderSuccess(paymentId) {
+            const activeFulfillmentType = document.querySelector('input[name="delivery"]:checked').value;
+            const addressInput = document.getElementById('delivery-address').value.trim();
+            const clientNameString = document.getElementById('buyer-name').value;
+            const clientEmailString = document.getElementById('buyer-email').value;
+            const clientPhoneString = document.getElementById('buyer-phone').value;
             const giftNoteMessage = document.getElementById('custom-gift-note').value.trim();
             
             const physicalAddressString = activeFulfillmentType === 'pickup' 
-                ? "Self-Pickup from Pammal Cafe" 
-                : (addressInput || "Address Not Provided");
+                ? "Self-Pickup from WARZONE Gaming Cafe Pammal" 
+                : addressInput;
                 
             const finalComputedSum = parseInt(document.getElementById('invoice-final-sum').innerText);
-
             let structuralItemSummary = checkoutCartItemsArray.map(b => `${b.title}`).join(' + ');
             
             let comprehensiveFlavorsMap = {};
@@ -2075,12 +1979,13 @@
             const orderPayload = {
                 timestamp: timestampLabel,
                 name: clientNameString,
+                email: clientEmailString,
                 phone: clientPhoneString,
                 items: structuralItemSummary,
                 flavors: comprehensiveFlavorsMap,
                 mode: activeFulfillmentType,
                 address: physicalAddressString,
-                utr: transactionRefString,
+                utr: paymentId,
                 amount: finalComputedSum
             };
 
@@ -2088,9 +1993,12 @@
                 window.saveOrderToFirebase(orderPayload);
             }
 
-            let stringBuilderMessage = `*🍪 NEW ORDER CONFIRMED — CACAO & CRUST 🍪*\n\n`;
+            alert("Payment successful! Order recorded successfully. Redirecting to WhatsApp to notify the bake team.");
+
+            let stringBuilderMessage = `*🍪 NEW PAID ORDER — CACAO & CRUST 🍪*\n\n`;
             stringBuilderMessage += `*👤 CLIENT LOGS:*\n`;
             stringBuilderMessage += `  • Name: ${clientNameString}\n`;
+            stringBuilderMessage += `  • Email: ${clientEmailString}\n`;
             stringBuilderMessage += `  • Contact: ${clientPhoneString}\n\n`;
             
             stringBuilderMessage += `*📦 CRAVINGS BREAKDOWN:* \n`;
@@ -2105,9 +2013,8 @@
 
             stringBuilderMessage += `\n*🚚 FULFILLMENT MODE:* ${activeFulfillmentType.toUpperCase()}\n`;
             stringBuilderMessage += `*📍 LOCATION TARGET:* ${physicalAddressString}\n\n`;
-            stringBuilderMessage += `*💳 UPI SETTLEMENT LOG:* ${transactionRefString}\n`;
+            stringBuilderMessage += `*💳 RAZORPAY PAYMENT ID:* ${paymentId}\n`;
             stringBuilderMessage += `*💰 TOTAL INVOICE PAID:* ₹${finalComputedSum}\n\n`;
-            stringBuilderMessage += `📌 *IMPORTANT:* I am sending the payment screenshot right below this message for instant verification!\n\n`;
             stringBuilderMessage += `_Thank you for supporting small-batch baking!_`;
 
             window.open(`https://api.whatsapp.com/send?phone=${TARGET_PHONE_WHATSAPP}&text=${encodeURIComponent(stringBuilderMessage)}`, '_blank');
@@ -2142,24 +2049,24 @@
         }
 
         function deleteAdminOrder(index) {
-            const targetOrder = adminBookingsDb[index];
+            const targetOrder = window.adminBookingsDb[index];
             if (confirm(`Are you sure you want to delete order #${index + 1} for ${targetOrder.name}?`)) {
                 if (targetOrder.id && window.deleteOrderFromFirebase) {
                     window.deleteOrderFromFirebase(targetOrder.id);
                 } else {
-                    adminBookingsDb.splice(index, 1);
+                    window.adminBookingsDb.splice(index, 1);
                     compileAdminReports();
                 }
             }
         }
 
         function deleteAdminReview(index) {
-            const targetReview = customerReviewsArray[index];
+            const targetReview = window.customerReviewsArray[index];
             if (confirm(`Are you sure you want to delete the review by ${targetReview.name}?`)) {
                 if (targetReview.id && window.deleteReviewFromFirebase) {
                     window.deleteReviewFromFirebase(targetReview.id);
                 } else {
-                    customerReviewsArray.splice(index, 1);
+                    window.customerReviewsArray.splice(index, 1);
                     renderCustomerReviews();
                     compileAdminReports();
                 }
@@ -2168,177 +2075,127 @@
 
         function compileAdminReports() {
             const tableBody = document.getElementById('admin-table-rows');
+            if(!tableBody) return;
             tableBody.innerHTML = '';
 
-            // Display Post-Cutoff alert on admin portal when order slot is closed
             const adminCutoffAlert = document.getElementById('admin-cutoff-alert');
-            if (isSlotClosed) {
-                adminCutoffAlert.style.display = 'flex';
-            } else {
-                adminCutoffAlert.style.display = 'none';
+            if (adminCutoffAlert) {
+                adminCutoffAlert.style.display = isSlotClosed ? 'flex' : 'none';
             }
 
             let grossRevenue = 0;
             let pickupCount = 0;
             let deliveryCount = 0;
-            let totalFlaggedDuplicates = 0;
+            let aggregatedFlavorCounts = {};
 
-            let globalProductionFlavorMap = {};
-            MASTER_MENU_FLAVORS.forEach(f => {
-                globalProductionFlavorMap[f.name] = 0;
-            });
+            MASTER_MENU_FLAVORS.forEach(f => aggregatedFlavorCounts[f.name] = 0);
 
-            let upiRegistryOccurrenceMap = {};
-            adminBookingsDb.forEach(order => {
-                if(order.utr) {
-                    upiRegistryOccurrenceMap[order.utr] = (upiRegistryOccurrenceMap[order.utr] || 0) + 1;
-                }
-            });
+            window.adminBookingsDb.forEach((order, idx) => {
+                grossRevenue += Number(order.amount || 0);
+                if (order.mode === 'pickup') pickupCount++;
+                if (order.mode === 'delivery') deliveryCount++;
 
-            adminBookingsDb.forEach((data, index) => {
-                grossRevenue += data.amount;
-                if (data.mode === 'pickup') pickupCount++;
-                if (data.mode === 'delivery') deliveryCount++;
-
-                if (data.flavors) {
-                    for (const [fName, qty] of Object.entries(data.flavors)) {
-                        if (globalProductionFlavorMap[fName] !== undefined) {
-                            globalProductionFlavorMap[fName] += qty;
-                        }
+                if (order.flavors) {
+                    for (const [flavorName, qty] of Object.entries(order.flavors)) {
+                        aggregatedFlavorCounts[flavorName] = (aggregatedFlavorCounts[flavorName] || 0) + Number(qty);
                     }
                 }
-                
-                const isDuplicate = upiRegistryOccurrenceMap[data.utr] > 1;
-                if(isDuplicate) totalFlaggedDuplicates++;
 
-                let itemFlavorDetailsStr = "";
-                if (data.flavors) {
-                    itemFlavorDetailsStr = Object.entries(data.flavors)
-                        .map(([fName, qty]) => `${fName} (x${qty})`)
-                        .join(', ');
-                }
-
-                const htmlRowElement = document.createElement('tr');
-                if (isDuplicate) {
-                    htmlRowElement.className = 'duplicate-upi-row';
-                }
-
-                htmlRowElement.innerHTML = `
-                    <td>${data.timestamp}</td>
-                    <td>
-                        <strong>${data.name}</strong><br>
-                        <a href="https://wa.me/${data.phone}" target="_blank" style="color:var(--text-dark); font-size:0.8rem;"><i class="fa-brands fa-whatsapp" style="color:#25D366;"></i> ${data.phone}</a>
-                    </td>
-                    <td>
-                        <span style="font-weight:600; font-size:0.8rem; display:block;">${data.items}</span>
-                        <span style="font-size:0.75rem; color:var(--text-light); display:block; margin-top:2px;">[${itemFlavorDetailsStr}]</span>
-                    </td>
-                    <td>
-                        <span style="font-weight:700; font-size:0.75rem; text-transform:uppercase; color:${data.mode === 'pickup' ? '#2E7D32' : '#0288D1'}">
-                            <i class="${data.mode === 'pickup' ? 'fa-solid fa-store' : 'fa-solid fa-truck-ramp-box'}"></i> ${data.mode}
-                        </span>
-                        <p style="font-size:0.75rem; color:var(--text-dark); margin-top:4px; max-width:200px; line-height:1.3;">${data.address}</p>
-                    </td>
-                    <td>
-                        <code style="font-weight:700; font-size:0.8rem; background:#FAF6F0; padding:2px 6px; border-radius:4px; border: 1px solid #F4E3C9;">${data.utr}</code>
-                        ${isDuplicate ? '<br><span class="badge-warning" style="margin-top:4px;"><i class="fa-solid fa-triangle-exclamation"></i> Duplicate ID</span>' : ''}
-                    </td>
-                    <td style="font-weight:700; color:var(--primary);">₹${data.amount}</td>
-                    <td>
-                        <button type="button" class="btn-danger" onclick="deleteAdminOrder(${index})"><i class="fa-solid fa-trash"></i> Delete</button>
-                    </td>
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td>${order.timestamp || 'N/A'}</td>
+                    <td><strong>${order.name}</strong><br><small>${order.phone}</small><br><small>${order.email || ''}</small></td>
+                    <td>${order.items}</td>
+                    <td><strong>${order.mode.toUpperCase()}</strong><br><small>${order.address}</small></td>
+                    <td><code style="background:#eee; padding:2px 6px; border-radius:4px;">${order.utr || 'N/A'}</code></td>
+                    <td><button class="btn btn-danger" onclick="deleteAdminOrder(${idx})">Delete</button></td>
                 `;
-                tableBody.appendChild(htmlRowElement);
+                tableBody.appendChild(tr);
             });
 
-            document.getElementById('metric-total-orders').innerText = adminBookingsDb.length;
+            document.getElementById('metric-total-orders').innerText = window.adminBookingsDb.length;
             document.getElementById('metric-total-rev').innerText = grossRevenue;
             document.getElementById('metric-pickup-count').innerText = pickupCount;
             document.getElementById('metric-delivery-count').innerText = deliveryCount;
-            document.getElementById('metric-flagged-count').innerText = totalFlaggedDuplicates;
 
-            const flavorContainer = document.getElementById('admin-flavor-stats-container');
-            flavorContainer.innerHTML = '';
-            for (const [flavorName, totalQty] of Object.entries(globalProductionFlavorMap)) {
+            document.getElementById('monthly-rev').innerText = grossRevenue;
+            document.getElementById('monthly-orders-count').innerText = window.adminBookingsDb.length;
+            document.getElementById('monthly-aov').innerText = window.adminBookingsDb.length > 0 ? Math.round(grossRevenue / window.adminBookingsDb.length) : 0;
+
+            const flavorStatsContainer = document.getElementById('admin-flavor-stats-container');
+            flavorStatsContainer.innerHTML = '';
+            for (const [flavorName, totalCount] of Object.entries(aggregatedFlavorCounts)) {
                 const pill = document.createElement('div');
                 pill.className = 'flavor-stat-pill';
-                pill.innerHTML = `
-                    <span style="font-weight:500;">${flavorName}</span>
-                    <span class="badge-qty" style="background:${totalQty > 0 ? 'var(--accent)' : '#FAF6F0'}; color:${totalQty > 0 ? 'var(--primary)' : 'var(--text-light)'}">${totalQty} Cookies</span>
-                `;
-                flavorContainer.appendChild(pill);
+                pill.innerHTML = `<span>${flavorName}</span> <span class="badge-qty">${totalCount} pcs</span>`;
+                flavorStatsContainer.appendChild(pill);
             }
-
-            const totalOrders = adminBookingsDb.length;
-            const avgOrderVal = totalOrders > 0 ? Math.round(grossRevenue / totalOrders) : 0;
-            document.getElementById('monthly-rev').innerText = grossRevenue;
-            document.getElementById('monthly-orders-count').innerText = totalOrders;
-            document.getElementById('monthly-aov').innerText = avgOrderVal;
-
-            const reviewsTableBody = document.getElementById('admin-reviews-table-rows');
-            reviewsTableBody.innerHTML = '';
-            customerReviewsArray.forEach((rev, idx) => {
-                const row = document.createElement('tr');
-                row.innerHTML = `
-                    <td><strong>${rev.name}</strong></td>
-                    <td>${'⭐'.repeat(rev.rating)}</td>
-                    <td style="font-style: italic;">"${rev.text}"</td>
-                    <td>
-                        <button type="button" class="btn-danger" onclick="deleteAdminReview(${idx})"><i class="fa-solid fa-trash"></i> Delete</button>
-                    </td>
-                `;
-                reviewsTableBody.appendChild(row);
-            });
         }
 
         function renderCustomerReviews() {
-            const reviewsContainer = document.getElementById('reviews-list-display');
-            reviewsContainer.innerHTML = '';
+            const listContainer = document.getElementById('reviews-list-display');
+            const adminTableRows = document.getElementById('admin-reviews-table-rows');
+            if(listContainer) listContainer.innerHTML = '';
+            if(adminTableRows) adminTableRows.innerHTML = '';
 
-            customerReviewsArray.forEach(rev => {
-                const starsHtml = '⭐'.repeat(rev.rating);
-                const reviewCard = document.createElement('div');
-                reviewCard.className = 'review-card-item';
-                reviewCard.innerHTML = `
-                    <div class="review-header-info">
-                        <span class="review-author">${rev.name}</span>
-                        <span class="review-rating-stars">${starsHtml}</span>
-                    </div>
-                    <p class="review-text-content">"${rev.text}"</p>
-                `;
-                reviewsContainer.appendChild(reviewCard);
+            if (window.customerReviewsArray.length === 0) {
+                if(listContainer) listContainer.innerHTML = '<p style="font-size:0.88rem; color:var(--text-light); text-align:center; padding:15px;">No reviews yet. Be the first to leave one!</p>';
+                return;
+            }
+
+            window.customerReviewsArray.forEach((rev, idx) => {
+                let stars = '⭐'.repeat(Number(rev.rating) || 5);
+                if(listContainer) {
+                    const item = document.createElement('div');
+                    item.className = 'review-card-item';
+                    item.innerHTML = `
+                        <div class="review-header-info">
+                            <span class="review-author">${rev.name}</span>
+                            <span class="review-rating-stars">${stars}</span>
+                        </div>
+                        <p class="review-text-content">"${rev.text}"</p>
+                    `;
+                    listContainer.appendChild(item);
+                }
+
+                if(adminTableRows) {
+                    const tr = document.createElement('tr');
+                    tr.innerHTML = `
+                        <td><strong>${rev.name}</strong></td>
+                        <td>${stars}</td>
+                        <td><em>${rev.text}</em></td>
+                        <td><button class="btn btn-danger" onclick="deleteAdminReview(${idx})">Delete</button></td>
+                    `;
+                    adminTableRows.appendChild(tr);
+                }
             });
         }
 
-        function handleReviewSubmission(event) {
+        async function handleReviewSubmission(event) {
             event.preventDefault();
-            const name = document.getElementById('reviewer-name').value;
-            const rating = parseInt(document.getElementById('reviewer-rating').value);
-            const text = document.getElementById('reviewer-text').value;
+            const name = document.getElementById('reviewer-name').value.trim();
+            const rating = document.getElementById('reviewer-rating').value;
+            const text = document.getElementById('reviewer-text').value.trim();
 
-            const reviewPayload = { name, rating, text };
-
+            const reviewPayload = { name, rating: Number(rating), text };
             if (window.saveReviewToFirebase) {
-                window.saveReviewToFirebase(reviewPayload);
+                await window.saveReviewToFirebase(reviewPayload);
             }
 
+            alert("Thank you! Your review has been successfully submitted.");
             document.getElementById('customer-review-form').reset();
-            alert("Thank you for your feedback! Your review has been posted successfully.");
         }
 
         function openDirectWhatsAppQuery() {
-            let standardQuery = `Hello Cacao & Crust! I'm interested in booking a custom pre-order cookie slot for Saturday, ${globalTargetSaturdayDateString}.`;
-            window.open(`https://api.whatsapp.com/send?phone=${TARGET_PHONE_WHATSAPP}&text=${encodeURIComponent(standardQuery)}`, '_blank');
+            window.open(`https://api.whatsapp.com/send?phone=${TARGET_PHONE_WHATSAPP}&text=${encodeURIComponent("Hi Cacao & Crust! I would like to chat with a baker regarding custom cookie options.")}`, '_blank');
         }
 
         function openBulkWhatsAppQuery() {
-            let bulkQuery = `Hello Cacao & Crust! I would love more details regarding bulk custom gift curations and special event orders.`;
-            window.open(`https://api.whatsapp.com/send?phone=${TARGET_PHONE_WHATSAPP}&text=${encodeURIComponent(bulkQuery)}`, '_blank');
+            window.open(`https://api.whatsapp.com/send?phone=${TARGET_PHONE_WHATSAPP}&text=${encodeURIComponent("Hi Cacao & Crust! I would like to request custom bulk/catering pricing for an upcoming event.")}`, '_blank');
         }
 
         window.onload = function() {
             configureCutoffLogic();
-            renderCustomerReviews();
         };
     </script>
 </body>
