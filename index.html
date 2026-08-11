@@ -6,7 +6,7 @@
     <title>Cacao & Crust | Artisanal Freshly Baked Cookies in Chennai</title>
     <link rel="icon" type="image/png" href="favicon.png">
     <!-- Premium Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght=300;400;500;600;700&family=Playfair+Display:ital,wght=0,600;0,700;0,800;1,400;1,500;1,600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,600;0,700;0,800;1,400;1,500;1,600&display=swap" rel="stylesheet">
     <!-- FontAwesome for Premium Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Razorpay Checkout Script SDK -->
@@ -14,12 +14,12 @@
     
     <style>
         :root {
-            --primary: #622a0f; /* Obsidian Rich Cocoa */
-            --primary-dark: #140A07; /* Darker Header & Tone */
-            --accent: #D4A359; /* Warm Metallic Gold */
-            --accent-hover: #B8863B; /* Deep Gold */
-            --accent-soft: #F4E3C9; /* Champagne Cream */
-            --text-dark: #3D2319; /* Deep Roast Brown Text */
+            --primary: #622a0f; 
+            --primary-dark: #140A07; 
+            --accent: #D4A359; 
+            --accent-hover: #B8863B; 
+            --accent-soft: #F4E3C9; 
+            --text-dark: #3D2319; 
             --text-light: #6E4A3C; 
             --white: #FFFFFF;
             --gradient-gold: linear-gradient(135deg, #FFF0D6 0%, #D4A359 50%, #B8863B 100%);
@@ -95,6 +95,7 @@
             display: flex;
             align-items: center;
             gap: 14px;
+            cursor: pointer;
         }
 
         .logo-image {
@@ -394,14 +395,14 @@
             gap: 8px;
         }
 
-        .flavor-stats-box, .monthly-sales-box, .admin-reviews-box {
+        .flavor-stats-box, .monthly-sales-box, .admin-reviews-box, .admin-manual-order-box {
             background: #FAF6F0;
             border: 1px solid #F4E3C9;
             border-radius: 16px;
             padding: clamp(15px, 4vw, 25px);
             margin-bottom: 25px;
         }
-        .flavor-stats-box h4, .monthly-sales-box h4, .admin-reviews-box h4 {
+        .flavor-stats-box h4, .monthly-sales-box h4, .admin-reviews-box h4, .admin-manual-order-box h4 {
             font-family: 'Playfair Display';
             font-size: clamp(1.1rem, 3vw, 1.3rem);
             margin-bottom: 15px;
@@ -503,60 +504,14 @@
             border-radius: 2px;
         }
 
-        /* --- Product Cards --- */
-        .box-selection {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 25px;
-            margin-bottom: 50px;
-        }
-
-        .box-card {
-            background: var(--white);
-            border-radius: 20px;
-            overflow: hidden;
-            box-shadow: 0 15px 35px rgba(33, 16, 11, 0.08);
-            border: 1px solid rgba(212, 163, 89, 0.3);
-            transition: all 0.4s ease;
-            text-align: center;
-            padding: clamp(30px, 6vw, 50px) 25px;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-        }
-        .box-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 25px 50px rgba(33, 16, 11, 0.15);
-            border-color: var(--accent);
-        }
-
-        .box-card i {
-            font-size: 3rem;
-            color: var(--accent);
-            margin-bottom: 15px;
-        }
-
-        .box-card h3 {
-            font-size: 1.8rem;
-            margin-bottom: 10px;
-            color: var(--primary);
-        }
-
-        .box-card .price {
-            font-size: 2.2rem;
-            font-weight: 700;
-            color: var(--primary);
-            margin: 15px 0;
-        }
-
-        /* --- Flavor Menu Builder Section --- */
+        /* --- Flavor Menu Builder Section (Directly Visible) --- */
         .builder-section {
             background: var(--white);
             border-radius: 24px;
             padding: clamp(20px, 5vw, 50px);
             box-shadow: 0 25px 60px rgba(0,0,0,0.06);
             border: 1px solid rgba(212, 163, 89, 0.3);
-            display: none;
+            display: block; 
             margin-bottom: 60px;
             scroll-margin-top: 100px;
             transition: padding 0.3s ease;
@@ -599,6 +554,32 @@
             box-shadow: 0 10px 25px rgba(33, 16, 11, 0.08);
         }
 
+        .flavor-img-wrapper {
+            width: 100%;
+            height: auto;
+            max-height: 240px;
+            border-radius: 12px;
+            overflow: hidden;
+            margin-bottom: 15px;
+            border: 1px solid #F4E3C9;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #FAF6F0;
+            cursor: pointer;
+        }
+
+        .flavor-img-wrapper img {
+            width: 100%;
+            height: auto;
+            object-fit: contain;
+            transition: transform 0.3s ease;
+        }
+
+        .flavor-card:hover .flavor-img-wrapper img {
+            transform: scale(1.03);
+        }
+
         .flavor-info {
             text-align: center;
             flex-grow: 1;
@@ -618,6 +599,13 @@
             color: var(--text-light);
             margin-bottom: 15px;
             min-height: 40px;
+        }
+
+        .flavor-actions-bottom {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: auto;
         }
 
         .flavor-controls {
@@ -649,6 +637,100 @@
         .flavor-controls button:hover {
             background: var(--primary);
             color: var(--white);
+        }
+
+        /* --- Product Detail Modal Styles --- */
+        .product-modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.65);
+            backdrop-filter: blur(6px);
+            z-index: 3000;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            animation: fadeIn 0.3s ease;
+        }
+        .product-modal-card {
+            background: var(--white);
+            width: 100%;
+            max-width: 700px;
+            border-radius: 24px;
+            overflow: hidden;
+            box-shadow: 0 25px 60px rgba(0,0,0,0.3);
+            border: 1px solid var(--accent);
+            max-height: 90vh;
+            display: flex;
+            flex-direction: column;
+            animation: slideUpModal 0.3s ease;
+        }
+        @keyframes slideUpModal {
+            from { transform: translateY(30px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        .product-modal-header {
+            background: var(--primary);
+            color: var(--accent-soft);
+            padding: 20px 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .product-modal-header h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            color: var(--accent);
+        }
+        .product-modal-body {
+            padding: 25px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        .modal-img-container {
+            width: 100%;
+            height: auto;
+            border-radius: 16px;
+            overflow: visible;
+            border: 1px solid #F4E3C9;
+            background: #FAF6F0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .modal-img-container img {
+            width: 75%;
+            height: auto;
+            object-fit: unset;
+        }
+        .modal-info-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 15px;
+        }
+        .modal-info-block {
+            background: #FAF6F0;
+            border: 1px solid #F4E3C9;
+            padding: 15px;
+            border-radius: 12px;
+        }
+        .modal-info-block h5 {
+            font-family: 'Playfair Display', serif;
+            color: var(--primary);
+            font-size: 1.05rem;
+            margin-bottom: 6px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .modal-info-block p {
+            font-size: 0.9rem;
+            color: var(--text-dark);
         }
 
         /* --- Visual Box Preview Styles --- */
@@ -712,8 +794,8 @@
             gap: 15px;
         }
 
-        /* --- Shopping Cart Drawer / Order Box --- */
-        .cart-section {
+        /* --- Separate Checkout Page Layout Styles --- */
+        .checkout-page-container {
             background: var(--white);
             border-radius: 24px;
             padding: clamp(20px, 5vw, 50px);
@@ -727,12 +809,12 @@
 
         .cart-item {
             display: flex;
-            justify-content: space-between;
-            align-items: center;
+            flex-direction: column;
+            align-items: flex-start;
             padding: 15px 0;
             border-bottom: 1px solid #F4E3C9;
-            flex-wrap: wrap;
-            gap: 12px;
+            width: 100%;
+            gap: 8px;
         }
 
         .payment-instructions-box {
@@ -878,12 +960,13 @@
             gap: 15px;
             margin-top: 20px;
         }
-        .checkout-form input, .checkout-form textarea {
+        .checkout-form input, .checkout-form textarea, .checkout-form select {
             padding: 12px 15px;
             border: 1px solid #F4E3C9;
             border-radius: 10px;
             width: 100%;
             font-size: 0.9rem;
+            background: #fff;
         }
         .checkout-form textarea {
             grid-column: 1 / -1;
@@ -927,6 +1010,41 @@
             font-weight: 700;
             font-size: 1.1rem;
             color: #2E7D32;
+        }
+
+        /* --- Cart Preview Modal/Drawer Layer --- */
+        .cart-drawer-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.6);
+            backdrop-filter: blur(4px);
+            z-index: 2000;
+            display: none;
+            justify-content: flex-end;
+            animation: fadeIn 0.3s ease;
+        }
+        .cart-drawer {
+            width: 100%;
+            max-width: 450px;
+            height: 100%;
+            background: var(--white);
+            padding: 30px 25px;
+            display: flex;
+            flex-direction: column;
+            box-shadow: -5px 0 30px rgba(0,0,0,0.3);
+            overflow-y: auto;
+            animation: slideInRight 0.3s ease;
+        }
+        @keyframes slideInRight {
+            from { transform: translateX(100%); }
+            to { transform: translateX(0); }
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
         }
 
         /* --- Reviews Section Styles --- */
@@ -1065,6 +1183,27 @@
             background-color: var(--accent);
             color: var(--primary);
         }
+        .btn-danger {
+            background-color: var(--danger);
+            color: var(--white);
+            border-color: var(--danger);
+            padding: 6px 12px;
+            font-size: 0.75rem;
+        }
+        .btn-danger:hover {
+            background-color: #B71C1C;
+            border-color: #B71C1C;
+            color: var(--white);
+        }
+        .btn-buy-now {
+            background-color: #B8863B !important;
+            border-color: #B8863B !important;
+            color: #FFFFFF !important;
+        }
+        .btn-buy-now:hover {
+            background-color: #9c7130 !important;
+            border-color: #9c7130 !important;
+        }
 
         /* --- Bulk Curation Section --- */
         .bulk-section {
@@ -1145,15 +1284,6 @@
             .builder-status button {
                 width: 100%;
             }
-            .cart-item {
-                flex-direction: column;
-                align-items: flex-start;
-            }
-            .cart-item > div:last-child {
-                width: 100%;
-                justify-content: space-between;
-                margin-top: 8px;
-            }
         }
     </style>
 </head>
@@ -1164,9 +1294,9 @@
         <i class="fa-solid fa-calendar-days"></i> Order slots close every Wednesday at 11:59 PM. Delivered across Chennai (Saturday to Monday Window) or Fresh Saturday Pickup at <a href="https://www.google.com/maps/place/WARZONE+Gaming+cafe/@12.9774547,80.1376503,17z/data=!3m1!4b1!4m6!3m5!1s0x3a525f1ecae456df:0x8798cd4e56d1b89f!8m2!3d12.9774547!4d80.1402252!16s%2Fg%2F11zcp3cbhn?entry=ttu&g_ep=EgoyMDI2MDcxMy4wIKXMDSoASAFQAw%3D%3D" target="_blank">WARZONE Gaming Cafe Pammal (11:00 AM)</a>!
     </div>
 
-    <!-- Header Navigation -->
+    <!-- Header Navigation with Cart Tab/Button -->
     <header>
-        <div class="logo-container">
+        <div class="logo-container" onclick="showMainLandingView()">
             <img class="logo-image" src="1782379228704_5.png" alt="Cacao & Crust Logo">
             <div class="brand-name">
                 <h1>CACAO & CRUST</h1>
@@ -1175,7 +1305,8 @@
         </div>
         <div class="nav-actions">
             <a href="https://www.instagram.com/cacao_and_crust_" target="_blank" class="insta-nav-link"><i class="fa-brands fa-instagram"></i> @cacao_and_crust_</a>
-            <button class="cart-icon-btn" onclick="scrollToElement('cart-section')" aria-label="Open Cart">
+            <!-- Cart Tab/Button Preview Trigger -->
+            <button class="cart-icon-btn" onclick="openCartDrawer()" aria-label="Open Cart Preview">
                 <i class="fa-solid fa-cookie-bite"></i>
                 <span class="cart-count" id="cart-count">0</span>
             </button>
@@ -1202,7 +1333,6 @@
                     <h4><i class="fa-solid fa-circle-check"></i> ORDER SLOT CLOSED (Wednesday 11:59 PM Window Reached)</h4>
                     <p style="font-size: 0.85rem; margin-top:2px;">The order window is finalized! Review the compiled Bake Production & Master Reports below for this week's fulfillment.</p>
                 </div>
-                <button class="btn" style="padding: 6px 12px; font-size: 0.75rem; background: var(--accent); color: var(--primary);" onclick="window.print()"><i class="fa-solid fa-print"></i> Print Report</button>
             </div>
 
             <div class="admin-metrics">
@@ -1222,6 +1352,43 @@
                     <h5>Deliveries</h5>
                     <p id="metric-delivery-count" style="color: #0288D1;">0</p>
                 </div>
+            </div>
+
+            <!-- New Admin Manual Order Creation Module -->
+            <div class="admin-manual-order-box">
+                <h4><i class="fa-solid fa-circle-plus"></i> Create Manual Order (Admin Panel)</h4>
+                <p style="font-size: 0.85rem; color: var(--text-light); margin-bottom: 15px;">Manually log an offline phone or Instagram order directly into the master database.</p>
+                
+                <form id="admin-manual-order-form" onsubmit="submitAdminManualOrder(event)">
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; margin-bottom: 15px;">
+                        <input type="text" id="admin-manual-name" placeholder="Customer Name" required style="padding:10px; border:1px solid #F4E3C9; border-radius:8px;">
+                        <input type="tel" id="admin-manual-phone" placeholder="WhatsApp Phone Number" required style="padding:10px; border:1px solid #F4E3C9; border-radius:8px;">
+                        <select id="admin-manual-box-size" onchange="updateAdminManualFlavorInputs()" style="padding:10px; border:1px solid #F4E3C9; border-radius:8px;">
+                            <option value="4">Box of 4 Cookies (₹299)</option>
+                            <option value="6">Box of 6 Cookies (₹449)</option>
+                        </select>
+                        <select id="admin-manual-fulfillment" onchange="toggleAdminManualAddress()" style="padding:10px; border:1px solid #F4E3C9; border-radius:8px;">
+                            <option value="pickup">Self Pickup (WARZONE Pammal)</option>
+                            <option value="delivery">Delivery Across Chennai (+₹50)</option>
+                        </select>
+                    </div>
+
+                    <div style="margin-bottom: 15px;">
+                        <label style="display:block; font-weight:600; font-size:0.85rem; color:var(--primary); margin-bottom:6px;">Select Flavor Quantities (Total must match box size):</label>
+                        <div id="admin-manual-flavor-selectors" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 10px; background:#fff; padding:12px; border-radius:8px; border:1px solid #F4E3C9;">
+                            <!-- Populated dynamically -->
+                        </div>
+                    </div>
+
+                    <div style="margin-bottom: 15px;">
+                        <input type="text" id="admin-manual-address" placeholder="Complete Delivery Address or Payment Reference / Notes" style="width:100%; padding:10px; border:1px solid #F4E3C9; border-radius:8px;">
+                    </div>
+
+                    <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
+                        <span style="font-weight:700; color:var(--primary);">Calculated Total: ₹<span id="admin-manual-total-display">299</span></span>
+                        <button type="submit" class="btn" style="padding: 10px 20px; font-size: 0.8rem;">Save & Register Order</button>
+                    </div>
+                </form>
             </div>
 
             <div class="flavor-stats-box">
@@ -1266,7 +1433,10 @@
 
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; flex-wrap: wrap; gap: 10px;">
                 <h4 style="font-family: 'Playfair Display'; font-size: 1.4rem;"><i class="fa-solid fa-list-check"></i> Master Booking Logs</h4>
-                <button class="btn" style="padding: 6px 14px; font-size: 0.75rem;" onclick="logoutAdminPortal()">Lock Session</button>
+                <div style="display: flex; gap: 10px;">
+                    <button class="btn" style="padding: 8px 16px; font-size: 0.8rem; background: #2E7D32; border-color: #2E7D32; color: #fff;" onclick="downloadExcelReport()"><i class="fa-solid fa-file-excel"></i> Download Excel Report</button>
+                    <button class="btn" style="padding: 6px 14px; font-size: 0.75rem;" onclick="logoutAdminPortal()">Lock Session</button>
+                </div>
             </div>
 
             <div class="table-responsive">
@@ -1277,7 +1447,7 @@
                             <th>Customer Details</th>
                             <th>Items Curated</th>
                             <th>Fulfillment & Address</th>
-                            <th>Razorpay Payment ID</th>
+                            <th>Payment ID / Source</th>
                             <th>Action</th>
                         </tr>
                     </thead>
@@ -1287,100 +1457,216 @@
         </div>
     </section>
 
-    <!-- Luxury Hero Section -->
-    <section class="hero">
-        <h2>Baking the Deepest Cravings in <em>Chennai</em></h2>
-        <p>Delivered across <strong>Chennai</strong>. Gooey, thick, soft-centered gourmet cookies mixed by hand and baked in luxury micro-batches.</p>
-        <div class="hero-ctas">
-            <button class="btn" onclick="scrollToElement('box-options')">Explore The Cookie Menu</button>
-            <button class="btn btn-outline" onclick="openDirectWhatsAppQuery()">Chat with a Baker</button>
-        </div>
-    </section>
+    <!-- Cart Preview Drawer / Modal -->
+    <div class="cart-drawer-overlay" id="cart-drawer-overlay" onclick="closeCartDrawerOnOutside(event)">
+        <div class="cart-drawer" id="cart-drawer">
+            <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #FAF6F0; padding-bottom: 15px; margin-bottom: 20px;">
+                <h3 style="font-family: 'Playfair Display'; color: var(--primary); font-size: 1.5rem;"><i class="fa-solid fa-cookie-bite" style="color: var(--accent);"></i> your cart</h3>
+                <button type="button" onclick="closeCartDrawer()" style="background: none; border: none; font-size: 1.3rem; cursor: pointer; color: var(--primary);"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            
+            <div id="cart-preview-items-container" style="flex-grow: 1; overflow-y: auto; display: flex; flex-direction: column; gap: 15px;">
+                <!-- Populated dynamically -->
+            </div>
 
-    <!-- Value Props Strip -->
-    <div class="highlight-strip">
-        <div class="highlight-item"><i class="fa-solid fa-fire"></i> Fresh Out of the Oven</div>
-        <div class="highlight-item"><i class="fa-solid fa-star"></i> Finest Premium Ingredients</div>
-        <div class="highlight-item"><i class="fa-solid fa-heart"></i> Small-Batch Homemade Care</div>
-        <div class="highlight-item"><i class="fa-brands fa-whatsapp"></i> Swift WhatsApp Ordering</div>
+            <div style="border-top: 2px solid #FAF6F0; padding-top: 20px; margin-top: auto;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; font-weight: 700; font-size: 1.1rem; color: var(--primary);">
+                    <span>Subtotal:</span>
+                    <span>₹<span id="cart-drawer-subtotal">0</span></span>
+                </div>
+                <button type="button" class="btn" style="width: 100%; justify-content: center;" onclick="proceedToCheckoutPage()">
+                    Proceed to Checkout Page <i class="fa-solid fa-arrow-right"></i>
+                </button>
+            </div>
+        </div>
     </div>
 
-    <div class="container">
-
-        <div class="hanging-sign-wrapper" id="hanging-sign-container">
-            <div class="hanging-hook"></div>
-            <div class="hanging-string"></div>
-            <div class="hanging-sign-board">
-                <h4><i class="fa-solid fa-store-slash"></i> Orders Closed For The Week</h4>
-                <p>We've reached maximum bake capacity for this week! (Closed Wednesday 11:59 PM). Now accepting pre-bookings for next weekend.</p>
+    <!-- Product Detail Modal -->
+    <div class="product-modal-overlay" id="product-detail-modal" onclick="closeProductModalOnOutside(event)">
+        <div class="product-modal-card">
+            <div class="product-modal-header">
+                <h3 id="modal-product-title">Product Details</h3>
+                <button type="button" onclick="closeProductModal()" style="background:none; border:none; color:var(--accent-soft); font-size:1.4rem; cursor:pointer;"><i class="fa-solid fa-xmark"></i></button>
             </div>
-        </div>
-
-        <div id="box-options"></div>
-        <div class="section-header" style="margin-top: 20px;">
-            <h2 class="section-title">Select Your <em>Assorted</em> Box Size</h2>
-            <p class="section-subtitle">Choose a curated tier below to activate the flavor builder tool and lock in your favorite artisanal combinations.</p>
-        </div>
-        
-        <div class="box-selection">
-            <div class="box-card">
-                <div>
-                    <i class="fa-solid fa-box-open"></i>
-                    <h3>Assorted of 4</h3>
-                    <p style="color: var(--text-light); font-size:0.95rem; margin-top:10px;">Select any 4 dense, gourmet cookie creations from our active menu rotation.</p>
+            <div class="product-modal-body">
+                <div class="modal-img-container">
+                    <img id="modal-product-img" src="" alt="">
                 </div>
-                <div>
-                    <div class="price">₹299</div>
-                    <button class="btn" onclick="startBuildingBox(4, 299)">Build Box of 4</button>
-                </div>
-            </div>
-
-            <div class="box-card">
-                <div>
-                    <i class="fa-solid fa-boxes-packing"></i>
-                    <h3>Assorted of 6</h3>
-                    <p style="color: var(--text-light); font-size:0.95rem; margin-top:10px;">Select any 6 decadent pieces. Perfect for premium gifting or absolute weekend indulgence.</p>
-                </div>
-                <div>
-                    <div class="price">₹449</div>
-                    <button class="btn" onclick="startBuildingBox(6, 449)">Build Box of 6</button>
+                <div class="modal-info-grid">
+                    <div class="modal-info-block">
+                        <h5><i class="fa-solid fa-info-circle" style="color:var(--accent);"></i> Description</h5>
+                        <p id="modal-product-desc"></p>
+                    </div>
+                    <div class="modal-info-block">
+                        <h5><i class="fa-solid fa-wheat-awn" style="color:var(--accent);"></i> Ingredients</h5>
+                        <p id="modal-product-ingredients"></p>
+                    </div>
+                    <div class="modal-info-block">
+                        <h5><i class="fa-solid fa-utensils" style="color:var(--accent);"></i> How It's Made & Taste Profile</h5>
+                        <p id="modal-product-taste"></p>
+                    </div>
+                    <div class="modal-info-block">
+                        <h5><i class="fa-solid fa-fire-burner" style="color:var(--accent);"></i> Preparation & Heating Instructions</h5>
+                        <p id="modal-product-prep"></p>
+                    </div>
                 </div>
             </div>
         </div>
+    </div>
 
-        <!-- Custom Builder Frame -->
-        <section class="builder-section" id="builder-section">
-            <div class="builder-header">
-                <h3 id="builder-title">Customize Your Selection</h3>
-                <span style="font-weight: 700; color: var(--primary); font-size: 1.1rem; background: var(--accent-soft); padding: 6px 18px; border-radius: 20px;" id="builder-counter">0 / 4 Selected</span>
-            </div>
-            
-            <div class="flavor-grid" id="flavor-grid"></div>
-            
-            <div class="visual-box-container">
-                <h4><i class="fa-solid fa-gift" style="color: var(--accent);"></i> Your Assorted Box Packaging Preview</h4>
-                <p style="font-size: 0.85rem; color: var(--text-light);">Watch your premium custom box fill up in real time as you add flavors!</p>
-                <div class="box-grid-display" id="box-grid-display"></div>
-            </div>
-            
-            <div class="builder-status">
-                <span style="font-weight:700; font-size:1.4rem; color: var(--primary);">Subtotal: ₹<span id="builder-price">0</span></span>
-                <button class="btn" id="add-to-cart-btn" disabled onclick="addBoxToCart()">Lock Box & Add To Cart</button>
+    <!-- Landing View Wrapper (Hero + Builder + Reviews) -->
+    <div id="main-landing-view">
+        <!-- Luxury Hero Section -->
+        <section class="hero">
+            <h2>Baking the Deepest Cravings in <em>Chennai</em></h2>
+            <p>Delivered across <strong>Chennai</strong>. Gooey, thick, soft-centered gourmet cookies mixed by hand and baked in luxury micro-batches.</p>
+            <div class="hero-ctas">
+                <button class="btn" onclick="scrollToElement('builder-section')">Explore The Cookie Menu</button>
+                <button class="btn btn-outline" onclick="openDirectWhatsAppQuery()">Chat with a Baker</button>
             </div>
         </section>
 
-        <!-- Shopping Cart / Order Box Section -->
-        <section class="cart-section" id="cart-section">
-            <h2 class="section-title" style="text-align: left; font-size: 2rem; margin-bottom: 25px;">Your Curation Summary</h2>
+        <!-- Value Props Strip -->
+        <div class="highlight-strip">
+            <div class="highlight-item"><i class="fa-solid fa-fire"></i> Fresh Out of the Oven</div>
+            <div class="highlight-item"><i class="fa-solid fa-star"></i> Finest Premium Ingredients</div>
+            <div class="highlight-item"><i class="fa-solid fa-heart"></i> Small-Batch Homemade Care</div>
+            <div class="highlight-item"><i class="fa-brands fa-whatsapp"></i> Swift WhatsApp Ordering</div>
+        </div>
+
+        <div class="container">
+
+            <div class="hanging-sign-wrapper" id="hanging-sign-container">
+                <div class="hanging-hook"></div>
+                <div class="hanging-string"></div>
+                <div class="hanging-sign-board">
+                    <h4><i class="fa-solid fa-store-slash"></i> Orders Closed For The Week</h4>
+                    <p>We've reached maximum bake capacity for this week! (Closed Wednesday 11:59 PM). Now accepting pre-bookings for next weekend.</p>
+                </div>
+            </div>
+
+            <!-- Custom Builder Frame -->
+            <section class="builder-section" id="builder-section">
+                <div class="section-header" style="margin-bottom: 20px;">
+                    <h2 class="section-title">Customize Your <em>Assorted</em> Box</h2>
+                    <p class="section-subtitle">Choose box size (4 or 6 cookies) and select your favorite flavors below! Click any cookie card to view full ingredients and details.</p>
+                </div>
+
+                <div style="display: flex; justify-content: center; gap: 15px; margin-bottom: 30px; flex-wrap: wrap;">
+                    <button class="btn" id="box-size-4-btn" onclick="setBoxSize(4, 299)" style="background: var(--accent); color: var(--primary);">Box of 4 Cookies (₹299)</button>
+                    <button class="btn btn-outline" id="box-size-6-btn" onclick="setBoxSize(6, 449)" style="border-color: var(--accent); color: var(--primary);">Box of 6 Cookies (₹449)</button>
+                </div>
+
+                <div class="builder-header">
+                    <h3 id="builder-title">Select Flavors for Box of 4</h3>
+                    <span style="font-weight: 700; color: var(--primary); font-size: 1.1rem; background: var(--accent-soft); padding: 6px 18px; border-radius: 20px;" id="builder-counter">0 / 4 Selected</span>
+                </div>
+                
+                <div class="flavor-grid" id="flavor-grid"></div>
+                
+                <div class="visual-box-container">
+                    <h4><i class="fa-solid fa-gift" style="color: var(--accent);"></i> Your Assorted Box Packaging Preview</h4>
+                    <p style="font-size: 0.85rem; color: var(--text-light);">Watch your custom box fill up in real time as you add flavors!</p>
+                    <div class="box-grid-display" id="box-grid-display"></div>
+                </div>
+                
+                <div class="builder-status">
+                    <span style="font-weight:700; font-size:1.4rem; color: var(--primary);">Subtotal: ₹<span id="builder-price">299</span></span>
+                    <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                        <button class="btn" id="add-to-cart-btn" disabled onclick="saveFlavorsToActiveBox()">Add Box to Cart</button>
+                        <button class="btn btn-buy-now" id="buy-now-btn" disabled onclick="buyNowActiveBox()">Buy Now</button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Customer Reviews Section -->
+            <section class="reviews-section" id="reviews-section">
+                <div class="section-header" style="margin-bottom: 20px;">
+                    <h2 class="section-title">What Our <em>Cookie Lovers</em> Say</h2>
+                    <p class="section-subtitle">Real experiences from our wonderful customers across Chennai.</p>
+                </div>
+
+                <div class="reviews-grid-layout">
+                    <div>
+                        <h3 style="font-family: 'Playfair Display'; font-size: 1.4rem; color: var(--primary); margin-bottom: 15px;">
+                            <i class="fa-solid fa-comments" style="color: var(--accent);"></i> Read Our Customer Reviews
+                        </h3>
+                        <div class="reviews-list-container" id="reviews-list-display"></div>
+                    </div>
+
+                    <div class="write-review-card">
+                        <h4><i class="fa-solid fa-pen-to-square" style="color: var(--accent);"></i> Write a Review</h4>
+                        <form id="customer-review-form" onsubmit="handleReviewSubmission(event)">
+                            <div class="review-form-group">
+                                <input type="text" id="reviewer-name" placeholder="Your Name" required>
+                            </div>
+                            <div class="review-form-group">
+                                <select id="reviewer-rating" required>
+                                    <option value="5">⭐⭐⭐⭐⭐ (5 / 5 - Heavenly!)</option>
+                                    <option value="4">⭐⭐⭐⭐ (4 / 5 - Delicious)</option>
+                                    <option value="3">⭐⭐⭐ (3 / 5 - Good)</option>
+                                </select>
+                            </div>
+                            <div class="review-form-group">
+                                <textarea id="reviewer-text" rows="3" placeholder="Share your experience with our molten cookies..." required></textarea>
+                            </div>
+                            <button type="submit" class="btn" style="width: 100%;">Submit Review</button>
+                        </form>
+                    </div>
+                </div>
+            </section>
+
+            <div class="section-header">
+                <h2 class="section-title">What Makes Us <em>Superior</em></h2>
+            </div>
+            <div class="why-grid">
+                <div class="why-card">
+                    <i class="fa-solid fa-cookie-bite"></i>
+                    <h4>Gooey Molten Centers</h4>
+                    <p>We specialize in heavy-weight, soft-baked profiles that deliver a glorious puddle of melted chocolate with every single bite.</p>
+                </div>
+                <div class="why-card">
+                    <i class="fa-solid fa-seedling"></i>
+                    <h4>Premium Pure Cacao</h4>
+                    <p>We refuse to settle for cheap baking compounds. We use luxury grade real chocolates, rich dairy cream, and house-made spreads.</p>
+                </div>
+                <div class="why-card">
+                    <i class="fa-solid fa-wand-magic-sparkles"></i>
+                    <h4>Bespoke Custom Gifting</h4>
+                    <p>Every box is curated beautifully with options for personalized gift notes, making it the perfect elegant surprise for birthdays & celebrations.</p>
+                </div>
+            </div>
+
+            <section class="bulk-section">
+                <h3>Planning a Celebration or Corporate Event?</h3>
+                <p>We curate beautiful catering setups, customized miniature boxes, wedding return favors, and specialty bulk cookie menus tailored completely to your aesthetic needs.</p>
+                <button class="btn" style="background: var(--accent); color: var(--primary); border-color: var(--accent);" onclick="openBulkWhatsAppQuery()">
+                    <i class="fa-brands fa-whatsapp"></i> Request Custom Bulk Pricing
+                </button>
+            </section>
+
+        </div>
+    </div>
+
+    <!-- Separate Checkout Page View -->
+    <div class="container" id="separate-checkout-page" style="display: none;">
+        <div style="margin-bottom: 20px;">
+            <button type="button" class="btn btn-outline" style="color: var(--primary); border-color: var(--primary);" onclick="showMainLandingView()">
+                <i class="fa-solid fa-arrow-left"></i> back to home
+            </button>
+        </div>
+
+        <section class="checkout-page-container" style="display: block; margin-bottom: 0;">
+            <h2 class="section-title" style="text-align: left; font-size: 2rem; margin-bottom: 25px;">Secure <em>Checkout</em> Page</h2>
             
-            <div id="cart-items-container"></div>
+            <div id="cart-items-container" style="display: flex; flex-direction: column; gap: 15px; margin-bottom: 25px;"></div>
 
             <div class="payment-instructions-box">
                 <h4><i class="fa-solid fa-circle-info" style="color: var(--accent);"></i> How to Complete Your Order:</h4>
                 <ul class="instruction-steps">
                     <li><span>1</span> Check your final summary breakdown and choose either self-pickup or door delivery fulfillment down below.</li>
                     <li><span>2</span> Fill out your customer details and address correctly.</li>
-                    <li><span>3</span> Click the <strong>Pay securely with Razorpay</strong> button to launch the secure instant payment popup.</li>
+                    <li><span>3</span> Click the <strong>Proceed to Payment</strong> button to launch the secure instant payment popup.</li>
                     <li><span>4</span> Once payment succeeds, your order details are securely registered and synced instantly!</li>
                 </ul>
             </div>
@@ -1403,6 +1689,7 @@
                 <textarea id="custom-gift-note" rows="3" placeholder="Write your personalized note here... (e.g., Happy Birthday Rahul! Hope you enjoy these gooey cookies! Hugs, Priya)"></textarea>
             </div>
 
+            <!-- Payment Breakdown Section -->
             <div class="payment-breakdown-wrapper">
                 <div class="payment-breakdown-card">
                     <div class="breakdown-line">
@@ -1441,79 +1728,12 @@
 
                 <div style="margin-top: 30px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px; border-top: 2px solid #FAF6F0; padding-top: 20px;">
                     <span style="font-size: 1.4rem; font-weight: 700; color: #2E7D32;">Total Amount: ₹<span id="invoice-final-sum">0</span></span>
-                    <button type="submit" class="btn" style="background: var(--accent); border-color: var(--accent); color: var(--primary); padding: 14px 28px; font-size: 0.9rem; font-weight:700;">
-                        <i class="fa-solid fa-shield-halved" style="font-size:1.1rem;"></i> Pay Securely with Razorpay
+                    <button type="submit" class="btn btn-buy-now" style="padding: 14px 28px; font-size: 0.9rem; font-weight:700;">
+                        <i class="fa-solid fa-shield-halved" style="font-size:1.1rem;"></i> Proceed to Payment
                     </button>
                 </div>
             </form>
         </section>
-
-        <!-- Customer Reviews Section -->
-        <section class="reviews-section" id="reviews-section">
-            <div class="section-header" style="margin-bottom: 20px;">
-                <h2 class="section-title">What Our <em>Cookie Lovers</em> Say</h2>
-                <p class="section-subtitle">Real experiences from our wonderful customers across Chennai.</p>
-            </div>
-
-            <div class="reviews-grid-layout">
-                <div>
-                    <h3 style="font-family: 'Playfair Display'; font-size: 1.4rem; color: var(--primary); margin-bottom: 15px;">
-                        <i class="fa-solid fa-comments" style="color: var(--accent);"></i> Read Our Customer Reviews
-                    </h3>
-                    <div class="reviews-list-container" id="reviews-list-display"></div>
-                </div>
-
-                <div class="write-review-card">
-                    <h4><i class="fa-solid fa-pen-to-square" style="color: var(--accent);"></i> Write a Review</h4>
-                    <form id="customer-review-form" onsubmit="handleReviewSubmission(event)">
-                        <div class="review-form-group">
-                            <input type="text" id="reviewer-name" placeholder="Your Name" required>
-                        </div>
-                        <div class="review-form-group">
-                            <select id="reviewer-rating" required>
-                                <option value="5">⭐⭐⭐⭐⭐ (5 / 5 - Heavenly!)</option>
-                                <option value="4">⭐⭐⭐⭐ (4 / 5 - Delicious)</option>
-                                <option value="3">⭐⭐⭐ (3 / 5 - Good)</option>
-                            </select>
-                        </div>
-                        <div class="review-form-group">
-                            <textarea id="reviewer-text" rows="3" placeholder="Share your experience with our molten cookies..." required></textarea>
-                        </div>
-                        <button type="submit" class="btn" style="width: 100%;">Submit Review</button>
-                    </form>
-                </div>
-            </div>
-        </section>
-
-        <div class="section-header">
-            <h2 class="section-title">What Makes Us <em>Superior</em></h2>
-        </div>
-        <div class="why-grid">
-            <div class="why-card">
-                <i class="fa-solid fa-cookie-bite"></i>
-                <h4>Gooey Molten Centers</h4>
-                <p>We specialize in heavy-weight, soft-baked profiles that deliver a glorious puddle of melted chocolate with every single bite.</p>
-            </div>
-            <div class="why-card">
-                <i class="fa-solid fa-seedling"></i>
-                <h4>Premium Pure Cacao</h4>
-                <p>We refuse to settle for cheap baking compounds. We use luxury grade real chocolates, rich dairy cream, and house-made spreads.</p>
-            </div>
-            <div class="why-card">
-                <i class="fa-solid fa-wand-magic-sparkles"></i>
-                <h4>Bespoke Custom Gifting</h4>
-                <p>Every box is curated beautifully with options for personalized gift notes, making it the perfect elegant surprise for birthdays & celebrations.</p>
-            </div>
-        </div>
-
-        <section class="bulk-section">
-            <h3>Planning a Celebration or Corporate Event?</h3>
-            <p>We curate beautiful catering setups, customized miniature boxes, wedding return favors, and specialty bulk cookie menus tailored completely to your aesthetic needs.</p>
-            <button class="btn" style="background: var(--accent); color: var(--primary); border-color: var(--accent);" onclick="openBulkWhatsAppQuery()">
-                <i class="fa-brands fa-whatsapp"></i> Request Custom Bulk Pricing
-            </button>
-        </section>
-
     </div>
 
     <footer>
@@ -1534,8 +1754,7 @@
             <span><i class="fa-solid fa-calendar-check"></i> Deliveries Across Chennai (Sat-Mon)</span>
             <span><i class="fa-solid fa-envelope"></i> cacaoandcrust@gmail.com</span>
         </div>
-        <p style="font-size:0.75rem; color:#F4E3C9; margin-top:25px;">&copy; 2026 Cacao & Crust. Made Premium.</p>
-        <button class="btn btn-outline" style="padding: 6px 12px; font-size: 0.75rem;" onclick="toggleAdminPortalView()"><i class="fa-solid fa-lock"></i> Admin</button>
+        <p style="font-size:0.75rem; color:#F4E3C9; margin-top:25px;"><a href="javascript:void(0);" onclick="toggleAdminPortalView()" style="color: inherit; text-decoration: none;">&copy; 2026 Cacao & Crust. Made Premium.</a></p>
     </footer>
 
     <!-- Firebase SDK Modular Scripts -->
@@ -1610,20 +1829,77 @@
         const TARGET_PHONE_WHATSAPP = "8220131629"; 
         
         const MASTER_MENU_FLAVORS = [
-            { name: "Nutella Lava", desc: "Thick golden brown-butter cookie dough holding a direct molten volcanic center of rich hazelnut chocolate paste." },
-            { name: "Velvet Cheese Cookie", desc: "A velvety crimson dough filled with a rich, silky cream cheese center for an ultra-indulgent bite." },
-            { name: "Cookies Cream Crush", desc: "Creamy white vanilla dough loaded heavily with crushed sandwich biscuits and velvet white chocolate chips." },
-            { name: "Classic Brownbutter Chocochip", desc: "The absolute timeless icon. Slow-toasted nutty brown butter layered with chunks of deep Belgian dark chocolate." },
-            { name: "Double Chocolatechip Cookies", desc: "An intense, double-baked dark cocoa masterpiece stuffed completely with alternating milk and dark chocolate rivers." },
-            { name: "Brookie (brownie cookie)", desc: "The ultimate hybrid treat—rich, fudgy chocolate brownie meets golden, crisp chocolate chip cookie dough." },
-            { name: "Amsterdam Dark", desc: "Pure luxury. Deep black cocoa dough packed with rich bittersweet chocolate pools meant for true cocoa purists." },
-            { name: "Biscoff Bomb", desc: "A beautifully caramelized brown sugar cookie packed heavily with spiced speculoos cookie crumbles and molten cookie butter spread." }
+            { 
+                name: "Nutella Lava", 
+                desc: "Thick golden brown-butter cookie dough holding a direct molten volcanic center of rich hazelnut chocolate paste.", 
+                img: "Nutella Lava.jpeg",
+                ingredients: "Refined flour, European butter, brown sugar, white sugar, eggs, vanilla extract, cornstarch, baking soda, pure Nutella hazelnut spread (sugar, palm oil, hazelnuts, skim milk, cocoa).",
+                taste: "Extremely rich, buttery, and nutty with a warm, gooey liquid chocolate-hazelnut center that oozes out upon biting.",
+                prep: "Best enjoyed warm! Microwave for 15-20 seconds to reactivate the molten lava center."
+            },
+            { 
+                name: "Velvet Cheese Cookie", 
+                desc: "A velvety crimson dough filled with a rich, silky cream cheese center for an ultra-indulgent bite.", 
+                img: "velvet cheese cookie.png",
+                ingredients: "Red velvet cocoa blend, refined flour, premium butter, cream cheese, sugar, eggs, vanilla, touch of buttermilk, baking powder.",
+                taste: "Tangy yet sweet, perfectly balanced cocoa notes paired with a velvety smooth cream cheese filling.",
+                prep: "Enjoy at room temperature or warm slightly for 10 seconds to soften the cream cheese core."
+            },
+            { 
+                name: "Cookies Cream Crush", 
+                desc: "Creamy white vanilla dough loaded heavily with crushed sandwich biscuits and velvet white chocolate chips.", 
+                img: "Cookies Cream Crush.png",
+                ingredients: "Vanilla bean paste, premium white chocolate chips, crushed chocolate sandwich cookies, butter, flour, eggs, sugar.",
+                taste: "Sweet, milky white chocolate flavor bursting with crunchy cookie bits and a soft, chewy cookie base.",
+                prep: "Ready to eat straight out of the box or warmed for 10 seconds for a soft bakery feel."
+            },
+            { 
+                name: "Classic Brownbutter Chocochip", 
+                desc: "The absolute timeless icon. Slow-toasted nutty brown butter layered with chunks of deep Belgian dark chocolate.", 
+                img: "Classic Brownbutter Chocochip.png",
+                ingredients: "Slow-browned cultured butter, dark Belgian chocolate chunks, organic brown sugar, flour, eggs, sea salt flakes.",
+                taste: "Deep toffee-like caramel undertones from browned butter, contrasted with pools of bittersweet melted Belgian chocolate and a hint of sea salt.",
+                prep: "Microwave for 15 seconds to enjoy gooey melted chocolate pools."
+            },
+            { 
+                name: "Double Chocolatechip Cookies", 
+                desc: "An intense, double-baked dark cocoa masterpiece stuffed completely with alternating milk and dark chocolate rivers.", 
+                img: "Double Chocolatechip Cookies.png",
+                ingredients: "Dutch-processed dark cocoa powder, butter, milk chocolate chunks, dark chocolate chips, flour, eggs, sugar.",
+                taste: "Deep, fudge-like chocolate intensity with double the chocolate goodness in every single bite.",
+                prep: "Warm for 15-20 seconds to get that freshly baked fudge brownie texture."
+            },
+            { 
+                name: "Brookie (brownie cookie)", 
+                desc: "The ultimate hybrid treat—rich, fudgy chocolate brownie meets golden, crisp chocolate chip cookie dough.", 
+                img: "Brookie (brownie cookie).png",
+                ingredients: "Fudgy brownie batter core, chocolate chip cookie dough shell, butter, cocoa, flour, eggs, sugar.",
+                taste: "The best of both worlds: crispy, chewy cookie exterior hugging a dense, fudgy chocolate brownie center.",
+                prep: "Best served slightly warm (15 seconds in microwave) with a scoop of vanilla ice cream."
+            },
+            { 
+                name: "Amsterdam Dark", 
+                desc: "Pure luxury. Deep black cocoa dough packed with rich bittersweet chocolate pools meant for true cocoa purists.", 
+                img: "Amsterdam Dark.png",
+                ingredients: "Ultra-dark black cocoa, 70% dark chocolate chunks, butter, brown sugar, flour, eggs.",
+                taste: "Intense, sophisticated, and dark with robust bitter-sweet cocoa notes and zero cloying sweetness.",
+                prep: "Microwave for 15 seconds to soften the dark chocolate pools."
+            },
+            { 
+                name: "Biscoff Bomb", 
+                desc: "A beautifully caramelized brown sugar cookie packed heavily with spiced speculoos cookie crumbles and molten cookie butter spread.", 
+                img: "Biscoff Bomb.png",
+                ingredients: "Lotus Biscoff spread, crushed Biscoff biscuit speculoos, brown butter, flour, brown sugar, spices (cinnamon, nutmeg).",
+                taste: "Warm spiced caramel flavor profile with a distinct, comforting gingerbread-cookie-butter sweetness.",
+                prep: "Warm for 15-20 seconds to melt the Biscoff spread into a gooey delicious glaze."
+            }
         ];
 
         let activeBoxInstance = {
-            maxLimit: 0,
-            baseCost: 0,
-            chosenCounts: {}
+            maxLimit: 4,
+            baseCost: 299,
+            chosenCounts: {},
+            cartIndex: null
         };
 
         let checkoutCartItemsArray = [];
@@ -1632,6 +1908,80 @@
 
         window.adminBookingsDb = [];
         window.customerReviewsArray = [];
+
+        function getOrCreateCustomerId() {
+            let customerId = localStorage.getItem('cacao_customer_id');
+            if (!customerId) {
+                const randomNum = Math.floor(10000 + Math.random() * 90000);
+                customerId = `CUST-${randomNum}`;
+                localStorage.setItem('cacao_customer_id', customerId);
+            }
+            return customerId;
+        }
+
+        function generateOrderId() {
+            const randomNum = Math.floor(1000 + Math.random() * 9000);
+            return `ORD-${new Date().getFullYear()}-${randomNum}`;
+        }
+
+        function showMainLandingView() {
+            document.getElementById('main-landing-view').style.display = 'block';
+            document.getElementById('separate-checkout-page').style.display = 'none';
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function proceedToCheckoutPage() {
+            if (checkoutCartItemsArray.length === 0) {
+                alert("Your cart is empty! Please add a box first.");
+                return;
+            }
+            closeCartDrawer();
+            document.getElementById('main-landing-view').style.display = 'none';
+            document.getElementById('separate-checkout-page').style.display = 'block';
+            rebuildCartDOM();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function openCartDrawer() {
+            rebuildCartDrawerDOM();
+            document.getElementById('cart-drawer-overlay').style.display = 'flex';
+        }
+
+        function closeCartDrawer() {
+            document.getElementById('cart-drawer-overlay').style.display = 'none';
+        }
+
+        function closeCartDrawerOnOutside(event) {
+            if (event.target.id === 'cart-drawer-overlay') {
+                closeCartDrawer();
+            }
+        }
+
+        /* --- Product Detail Modal Functions --- */
+        function openProductModal(flavorName) {
+            const flavor = MASTER_MENU_FLAVORS.find(f => f.name === flavorName);
+            if (!flavor) return;
+
+            document.getElementById('modal-product-title').innerText = flavor.name;
+            document.getElementById('modal-product-img').src = flavor.img;
+            document.getElementById('modal-product-img').alt = flavor.name;
+            document.getElementById('modal-product-desc').innerText = flavor.desc;
+            document.getElementById('modal-product-ingredients').innerText = flavor.ingredients;
+            document.getElementById('modal-product-taste').innerText = flavor.taste;
+            document.getElementById('modal-product-prep').innerText = flavor.prep;
+
+            document.getElementById('product-detail-modal').style.display = 'flex';
+        }
+
+        function closeProductModal() {
+            document.getElementById('product-detail-modal').style.display = 'none';
+        }
+
+        function closeProductModalOnOutside(event) {
+            if (event.target.id === 'product-detail-modal') {
+                closeProductModal();
+            }
+        }
 
         function toggleFulfillmentFields() {
             const activeFulfillmentSelection = document.querySelector('input[name="delivery"]:checked').value;
@@ -1721,23 +2071,45 @@
             document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
         }
 
-        function startBuildingBox(size, price) {
+        function setBoxSize(size, price) {
+            if (size !== 4 && size !== 6) {
+                alert("Please order a minimum of 4 or 6 cookies for 1 box!");
+                return;
+            }
+
             activeBoxInstance.maxLimit = size;
             activeBoxInstance.baseCost = price;
             activeBoxInstance.chosenCounts = {};
+            activeBoxInstance.cartIndex = null;
+
+            document.getElementById('box-size-4-btn').style.background = size === 4 ? 'var(--accent)' : 'transparent';
+            document.getElementById('box-size-4-btn').style.color = size === 4 ? 'var(--primary)' : 'var(--primary)';
+            
+            document.getElementById('box-size-6-btn').style.background = size === 6 ? 'var(--accent)' : 'transparent';
+            document.getElementById('box-size-6-btn').style.color = size === 6 ? 'var(--primary)' : 'var(--primary)';
+
+            document.getElementById('builder-title').innerText = `Select Flavors for Box of ${size}`;
+            document.getElementById('builder-price').innerText = price;
+
+            renderDynamicFlavorLayout();
+            updateBoxPreviewLayout();
+            refreshStateIndicators();
+        }
+
+        function editBoxFlavors(pointerIndex) {
+            const cartItem = checkoutCartItemsArray[pointerIndex];
+            setBoxSize(cartItem.maxLimit, cartItem.cost);
+            activeBoxInstance.cartIndex = pointerIndex;
             
             MASTER_MENU_FLAVORS.forEach(item => {
-                activeBoxInstance.chosenCounts[item.name] = 0;
+                activeBoxInstance.chosenCounts[item.name] = cartItem.flavors[item.name] || 0;
             });
 
-            document.getElementById('builder-title').innerText = `Assemble Your Assorted Box of ${size}`;
-            document.getElementById('builder-price').innerText = price;
-            
             renderDynamicFlavorLayout();
             updateBoxPreviewLayout();
             refreshStateIndicators();
             
-            document.getElementById('builder-section').style.display = 'block';
+            showMainLandingView();
             scrollToElement('builder-section');
         }
 
@@ -1750,15 +2122,21 @@
                 const card = document.createElement('div');
                 card.className = 'flavor-card';
                 card.innerHTML = `
+                    <div class="flavor-img-wrapper" onclick="openProductModal('${item.name}')" title="Click to view details">
+                        <img src="${item.img}" alt="${item.name}">
+                    </div>
                     <div class="flavor-info">
-                        <div>
-                            <h4>${item.name}</h4>
+                        <div onclick="openProductModal('${item.name}')" style="cursor:pointer;" title="Click to view details">
+                            <h4>${item.name} <i class="fa-solid fa-circle-info" style="font-size:0.85rem; color:var(--accent);"></i></h4>
                             <p>${item.desc}</p>
                         </div>
-                        <div class="flavor-controls">
-                            <button type="button" onclick="adjustCount('${item.name}', -1)">-</button>
-                            <span id="counter-${item.name.replace(/[^a-zA-Z0-9]/g, '')}" style="font-weight:700; font-size:1.1rem; width:25px; text-align:center;">${activeCount}</span>
-                            <button type="button" onclick="adjustCount('${item.name}', 1)">+</button>
+                        <div class="flavor-actions-bottom">
+                            <button type="button" class="btn btn-outline" style="padding: 6px 10px; font-size: 0.75rem; color: var(--primary); border-color: var(--accent);" onclick="openProductModal('${item.name}')">View Details</button>
+                            <div class="flavor-controls">
+                                <button type="button" onclick="adjustCount('${item.name}', -1)">-</button>
+                                <span id="counter-${item.name.replace(/[^a-zA-Z0-9]/g, '')}" style="font-weight:700; font-size:1.1rem; width:25px; text-align:center;">${activeCount}</span>
+                                <button type="button" onclick="adjustCount('${item.name}', 1)">+</button>
+                            </div>
                         </div>
                     </div>
                 `;
@@ -1776,7 +2154,7 @@
                 activeBoxInstance.chosenCounts[name] = explicitItemSum - 1;
             }
 
-            document.getElementById(`counter-${name.replace(/[^a-zA-Z0-9]/g, '')}`).innerText = activeBoxInstance.chosenCounts[name];
+            document.getElementById(`counter-${name.replace(/[^a-zA-Z0-9]/g, '')}`).innerText = activeBoxInstance.chosenCounts[name] || 0;
             updateBoxPreviewLayout();
             refreshStateIndicators();
         }
@@ -1810,18 +2188,33 @@
             document.getElementById('builder-counter').innerText = `${runningTotal} / ${activeBoxInstance.maxLimit} Selected`;
             
             const actionBtn = document.getElementById('add-to-cart-btn');
+            const buyNowBtn = document.getElementById('buy-now-btn');
             if (runningTotal === activeBoxInstance.maxLimit) {
                 actionBtn.disabled = false;
                 actionBtn.style.opacity = '1';
                 actionBtn.style.cursor = 'pointer';
+
+                buyNowBtn.disabled = false;
+                buyNowBtn.style.opacity = '1';
+                buyNowBtn.style.cursor = 'pointer';
             } else {
                 actionBtn.disabled = true;
                 actionBtn.style.opacity = '0.4';
                 actionBtn.style.cursor = 'not-allowed';
+
+                buyNowBtn.disabled = true;
+                buyNowBtn.style.opacity = '0.4';
+                buyNowBtn.style.cursor = 'not-allowed';
             }
         }
 
-        function addBoxToCart() {
+        function saveFlavorsToActiveBox() {
+            let runningTotal = Object.values(activeBoxInstance.chosenCounts).reduce((a, b) => a + b, 0);
+            if (runningTotal !== 4 && runningTotal !== 6) {
+                alert("Please order a minimum of 4 or 6 cookies for 1 box!");
+                return;
+            }
+
             let localizedSummaryLog = [];
             let flavorCountsMap = {};
             for (const [flavorName, discreteCount] of Object.entries(activeBoxInstance.chosenCounts)) {
@@ -1831,17 +2224,93 @@
                 }
             }
 
-            checkoutCartItemsArray.push({
+            const boxData = {
                 title: `Assorted Box of ${activeBoxInstance.maxLimit}`,
                 cost: activeBoxInstance.baseCost,
+                maxLimit: activeBoxInstance.maxLimit,
                 flavorString: localizedSummaryLog.join(', '),
                 flavors: flavorCountsMap
+            };
+
+            if (activeBoxInstance.cartIndex !== null && checkoutCartItemsArray[activeBoxInstance.cartIndex]) {
+                checkoutCartItemsArray[activeBoxInstance.cartIndex] = boxData;
+            } else {
+                checkoutCartItemsArray.push(boxData);
+            }
+
+            activeBoxInstance.cartIndex = null;
+            document.getElementById('cart-count').innerText = checkoutCartItemsArray.length;
+            
+            openCartDrawer();
+        }
+
+        function buyNowActiveBox() {
+            let runningTotal = Object.values(activeBoxInstance.chosenCounts).reduce((a, b) => a + b, 0);
+            if (runningTotal !== 4 && runningTotal !== 6) {
+                alert("Please order a minimum of 4 or 6 cookies for 1 box!");
+                return;
+            }
+
+            let localizedSummaryLog = [];
+            let flavorCountsMap = {};
+            for (const [flavorName, discreteCount] of Object.entries(activeBoxInstance.chosenCounts)) {
+                if (discreteCount > 0) {
+                    localizedSummaryLog.push(`${flavorName} (x${discreteCount})`);
+                    flavorCountsMap[flavorName] = discreteCount;
+                }
+            }
+
+            const boxData = {
+                title: `Assorted Box of ${activeBoxInstance.maxLimit}`,
+                cost: activeBoxInstance.baseCost,
+                maxLimit: activeBoxInstance.maxLimit,
+                flavorString: localizedSummaryLog.join(', '),
+                flavors: flavorCountsMap
+            };
+
+            if (activeBoxInstance.cartIndex !== null && checkoutCartItemsArray[activeBoxInstance.cartIndex]) {
+                checkoutCartItemsArray[activeBoxInstance.cartIndex] = boxData;
+            } else {
+                checkoutCartItemsArray.push(boxData);
+            }
+
+            activeBoxInstance.cartIndex = null;
+            document.getElementById('cart-count').innerText = checkoutCartItemsArray.length;
+
+            proceedToCheckoutPage();
+        }
+
+        function rebuildCartDrawerDOM() {
+            document.getElementById('cart-count').innerText = checkoutCartItemsArray.length;
+            const container = document.getElementById('cart-preview-items-container');
+            const subtotalEl = document.getElementById('cart-drawer-subtotal');
+            container.innerHTML = '';
+
+            if (checkoutCartItemsArray.length === 0) {
+                container.innerHTML = '<p style="color:#777; text-align:center; padding:30px 0;">Your cart preview is empty.</p>';
+                subtotalEl.innerText = '0';
+                return;
+            }
+
+            let subtotal = 0;
+            checkoutCartItemsArray.forEach((item, pointerIndex) => {
+                subtotal += item.cost;
+                const row = document.createElement('div');
+                row.className = 'cart-item';
+                row.innerHTML = `
+                    <div style="width: 100%;">
+                        <strong style="color:var(--primary); font-size:1rem; font-family:'Playfair Display';">${item.title}</strong>
+                        <p style="font-size:0.8rem; color:var(--text-light); margin-top:2px;">${item.flavorString}</p>
+                    </div>
+                    <div style="display:flex; justify-content: space-between; align-items:center; width: 100%;">
+                        <span style="font-weight:700; color:var(--primary);">₹${item.cost}</span>
+                        <button type="button" onclick="dropItemFromCart(${pointerIndex})" style="background:none; border:none; color:#C62828; cursor:pointer; font-size:1rem;"><i class="fa-solid fa-trash-can"></i> Remove</button>
+                    </div>
+                `;
+                container.appendChild(row);
             });
 
-            document.getElementById('builder-section').style.display = 'none';
-            rebuildCartDOM();
-            document.getElementById('cart-section').style.display = 'block';
-            scrollToElement('cart-section');
+            subtotalEl.innerText = subtotal;
         }
 
         function rebuildCartDOM() {
@@ -1850,8 +2319,8 @@
             targetContainer.innerHTML = '';
 
             if (checkoutCartItemsArray.length === 0) {
-                targetContainer.innerHTML = '<p style="color:#777; padding:20px 0; text-align:center;">Your selection is empty.</p>';
-                document.getElementById('cart-section').style.display = 'none';
+                targetContainer.innerHTML = '<p style="color:#777; padding:20px 0; text-align:center;">Your checkout cart is empty.</p>';
+                calculateFinalInvoiceTotal();
                 return;
             }
 
@@ -1859,13 +2328,16 @@
                 const elementRow = document.createElement('div');
                 elementRow.className = 'cart-item';
                 elementRow.innerHTML = `
-                    <div>
+                    <div style="width: 100%;">
                         <strong style="color:var(--primary); font-size:1.1rem; font-family:'Playfair Display';">${item.title}</strong>
                         <p style="font-size:0.85rem; color:var(--text-light); margin-top:4px;">${item.flavorString}</p>
                     </div>
-                    <div style="display:flex; align-items:center; gap:20px;">
+                    <div style="display:flex; justify-content: space-between; align-items:center; width: 100%; flex-wrap: wrap; gap: 10px;">
                         <span style="font-weight:700; color:var(--primary);">₹${item.cost}</span>
-                        <button type="button" onclick="dropItemFromCart(${pointerIndex})" style="background:none; border:none; color:#C62828; cursor:pointer; font-size:1.1rem;"><i class="fa-solid fa-trash-can"></i></button>
+                        <div style="display: flex; gap: 10px;">
+                            <button type="button" class="btn" style="padding: 4px 10px; font-size: 0.7rem;" onclick="editBoxFlavors(${pointerIndex})">Customize Flavors</button>
+                            <button type="button" class="btn btn-danger" onclick="dropItemFromCart(${pointerIndex})"><i class="fa-solid fa-trash-can"></i> Remove</button>
+                        </div>
                     </div>
                 `;
                 targetContainer.appendChild(elementRow);
@@ -1876,6 +2348,8 @@
 
         function dropItemFromCart(pointerIndex) {
             checkoutCartItemsArray.splice(pointerIndex, 1);
+            document.getElementById('cart-count').innerText = checkoutCartItemsArray.length;
+            rebuildCartDrawerDOM();
             rebuildCartDOM();
         }
 
@@ -1905,6 +2379,13 @@
                 return;
             }
 
+            for (let item of checkoutCartItemsArray) {
+                if (item.maxLimit !== 4 && item.maxLimit !== 6) {
+                    alert("Please order a minimum of 4 or 6 cookies for 1 box!");
+                    return;
+                }
+            }
+
             const activeFulfillmentType = document.querySelector('input[name="delivery"]:checked').value;
             const addressInput = document.getElementById('delivery-address').value.trim();
 
@@ -1924,16 +2405,14 @@
             const clientPhoneString = document.getElementById('buyer-phone').value;
             const finalComputedSum = parseInt(document.getElementById('invoice-final-sum').innerText);
 
-            // Razorpay options configuration
             var options = {
-                "key": "rzp_live_TNb4gMTP7UoaQN", // Replace with your actual Razorpay Test/Live Key ID
-                "amount": finalComputedSum * 100, // Amount in currency subunits (paise)
+                "key": "rzp_live_TNb4gMTP7UoaQN", 
+                "amount": finalComputedSum * 100, 
                 "currency": "INR",
                 "name": "Cacao & Crust",
                 "description": "Artisanal Freshly Baked Cookies Order",
                 "image": "favicon.png",
                 "handler": function (response) {
-                    // Executed successfully upon secure completion of payment
                     const razorpayPaymentId = response.razorpay_payment_id;
                     finalizeOrderSuccess(razorpayPaymentId);
                 },
@@ -1976,7 +2455,12 @@
             let orderDate = new Date();
             let timestampLabel = `${orderDate.getDate()} ${formatDateString(orderDate).split(' ')[1]} ${orderDate.getFullYear()}, ${orderDate.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}`;
 
+            const customerId = getOrCreateCustomerId();
+            const orderId = generateOrderId();
+
             const orderPayload = {
+                customerId: customerId,
+                orderId: orderId,
                 timestamp: timestampLabel,
                 name: clientNameString,
                 email: clientEmailString,
@@ -1993,9 +2477,12 @@
                 window.saveOrderToFirebase(orderPayload);
             }
 
-            alert("Payment successful! Order recorded successfully. Redirecting to WhatsApp to notify the bake team.");
+            alert(`Payment successful! Order ID: ${orderId} | Customer ID: ${customerId}. Redirecting to WhatsApp to notify the bake team.`);
 
             let stringBuilderMessage = `*🍪 NEW PAID ORDER — CACAO & CRUST 🍪*\n\n`;
+            stringBuilderMessage += `*🆔 REGISTRY IDS:*\n`;
+            stringBuilderMessage += `  • Customer ID: ${customerId}\n`;
+            stringBuilderMessage += `  • Order ID: ${orderId}\n\n`;
             stringBuilderMessage += `*👤 CLIENT LOGS:*\n`;
             stringBuilderMessage += `  • Name: ${clientNameString}\n`;
             stringBuilderMessage += `  • Email: ${clientEmailString}\n`;
@@ -2020,6 +2507,182 @@
             window.open(`https://api.whatsapp.com/send?phone=${TARGET_PHONE_WHATSAPP}&text=${encodeURIComponent(stringBuilderMessage)}`, '_blank');
         }
 
+        /* --- Admin Manual Order Creation Functions --- */
+        function updateAdminManualFlavorInputs() {
+            const size = parseInt(document.getElementById('admin-manual-box-size').value);
+            const container = document.getElementById('admin-manual-flavor-selectors');
+            container.innerHTML = '';
+
+            let basePrice = size === 6 ? 449 : 299;
+            let fulfillmentMode = document.getElementById('admin-manual-fulfillment').value;
+            let totalAmt = basePrice + (fulfillmentMode === 'delivery' ? 50 : 0);
+            document.getElementById('admin-manual-total-display').innerText = totalAmt;
+
+            MASTER_MENU_FLAVORS.forEach(flavor => {
+                const div = document.createElement('div');
+                div.style.cssText = "display:flex; justify-content:space-between; align-items:center; font-size:0.85rem;";
+                div.innerHTML = `
+                    <span>${flavor.name}</span>
+                    <input type="number" min="0" max="${size}" value="0" class="admin-manual-flavor-qty" data-flavor="${flavor.name}" onchange="validateAdminManualFlavors(${size})" style="width:50px; padding:4px; text-align:center; border:1px solid #F4E3C9; border-radius:4px;">
+                `;
+                container.appendChild(div);
+            });
+        }
+
+        function toggleAdminManualAddress() {
+            const size = parseInt(document.getElementById('admin-manual-box-size').value);
+            let basePrice = size === 6 ? 449 : 299;
+            let fulfillmentMode = document.getElementById('admin-manual-fulfillment').value;
+            let totalAmt = basePrice + (fulfillmentMode === 'delivery' ? 50 : 0);
+            document.getElementById('admin-manual-total-display').innerText = totalAmt;
+        }
+
+        function validateAdminManualFlavors(maxLimit) {
+            const qtyInputs = document.querySelectorAll('.admin-manual-flavor-qty');
+            let sum = 0;
+            qtyInputs.forEach(input => sum += parseInt(input.value || 0));
+            if(sum > maxLimit) {
+                alert(`You can only select up to ${maxLimit} cookies for this box!`);
+                event.target.value = 0;
+            }
+        }
+
+        function submitAdminManualOrder(event) {
+            event.preventDefault();
+            const name = document.getElementById('admin-manual-name').value.trim();
+            const phone = document.getElementById('admin-manual-phone').value.trim();
+            const size = parseInt(document.getElementById('admin-manual-box-size').value);
+            const mode = document.getElementById('admin-manual-fulfillment').value;
+            const address = document.getElementById('admin-manual-address').value.trim() || (mode === 'pickup' ? 'Self-Pickup from WARZONE Pammal' : 'Chennai Delivery');
+            
+            const qtyInputs = document.querySelectorAll('.admin-manual-flavor-qty');
+            let flavorCountsMap = {};
+            let localizedSummaryLog = [];
+            let totalSelected = 0;
+
+            qtyInputs.forEach(input => {
+                const count = parseInt(input.value || 0);
+                if(count > 0) {
+                    const fName = input.getAttribute('data-flavor');
+                    flavorCountsMap[fName] = count;
+                    localizedSummaryLog.push(`${fName} (x${count})`);
+                    totalSelected += count;
+                }
+            });
+
+            if(totalSelected !== size) {
+                alert(`Please select exactly ${size} cookies across your flavor options! Currently selected: ${totalSelected}.`);
+                return;
+            }
+
+            let basePrice = size === 6 ? 449 : 299;
+            let finalAmt = basePrice + (mode === 'delivery' ? 50 : 0);
+
+            let orderDate = new Date();
+            let timestampLabel = `${orderDate.getDate()} ${formatDateString(orderDate).split(' ')[1]} ${orderDate.getFullYear()}, ${orderDate.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}`;
+
+            const customerId = getOrCreateCustomerId();
+            const orderId = generateOrderId();
+
+            const orderPayload = {
+                customerId: customerId,
+                orderId: orderId,
+                timestamp: timestampLabel,
+                name: name,
+                email: "admin-manual-order@cacaoandcrust.com",
+                phone: phone,
+                items: `Assorted Box of ${size}`,
+                flavors: flavorCountsMap,
+                mode: mode,
+                address: address,
+                utr: "ADMIN-MANUAL-ENTRY",
+                amount: finalAmt
+            };
+
+            if (window.saveOrderToFirebase) {
+                window.saveOrderToFirebase(orderPayload);
+            }
+
+            alert(`Manual Order Successfully Created! ID: ${orderId}`);
+            document.getElementById('admin-manual-order-form').reset();
+            updateAdminManualFlavorInputs();
+        }
+
+        function downloadExcelReport() {
+            if (!window.adminBookingsDb || window.adminBookingsDb.length === 0) {
+                alert("No booking data available to download.");
+                return;
+            }
+
+            let htmlContent = `
+                <html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40">
+                <head><meta charset="utf-8"></head>
+                <body>
+                <h3>Cacao & Crust - Master Booking & Flavor Assortment Report</h3>
+                <table border="1">
+                    <thead>
+                        <tr style="background-color: #622a0f; color: #fff;">
+                            <th>Order ID</th>
+                            <th>Customer ID</th>
+                            <th>Timestamp</th>
+                            <th>Customer Name</th>
+                            <th>Email</th>
+                            <th>Phone</th>
+                            <th>Curated Items & Flavors Breakdown</th>
+                            <th>Fulfillment Mode</th>
+                            <th>Delivery Address / Pickup</th>
+                            <th>Payment ID / Source</th>
+                            <th>Total Amount (₹)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+            `;
+
+            window.adminBookingsDb.forEach(order => {
+                let flavorDetailsStr = "";
+                if (order.flavors) {
+                    flavorDetailsStr = Object.entries(order.flavors)
+                        .map(([flavor, count]) => `${flavor}: ${count}`)
+                        .join(' | ');
+                } else {
+                    flavorDetailsStr = order.items || "N/A";
+                }
+
+                htmlContent += `
+                    <tr>
+                        <td>${order.orderId || 'N/A'}</td>
+                        <td>${order.customerId || 'N/A'}</td>
+                        <td>${order.timestamp || 'N/A'}</td>
+                        <td>${order.name || 'N/A'}</td>
+                        <td>${order.email || 'N/A'}</td>
+                        <td>${order.phone || 'N/A'}</td>
+                        <td>${flavorDetailsStr}</td>
+                        <td>${(order.mode || '').toUpperCase()}</td>
+                        <td>${order.address || 'N/A'}</td>
+                        <td>${order.utr || 'N/A'}</td>
+                        <td>${order.amount || 0}</td>
+                    </tr>
+                `;
+            });
+
+            htmlContent += `
+                    </tbody>
+                </table>
+                </body>
+                </html>
+            `;
+
+            const blob = new Blob([htmlContent], { type: 'application/vnd.ms-excel' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `Cacao_Crust_Report_${new Date().toISOString().slice(0, 10)}.xls`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+
         function toggleAdminPortalView() {
             const adminPortal = document.getElementById('admin-portal');
             if (adminPortal.style.display === 'block') {
@@ -2035,6 +2698,7 @@
             if (secretKey === "37992535") {
                 document.getElementById('admin-login-view').style.display = 'none';
                 document.getElementById('admin-dashboard-view').style.display = 'block';
+                updateAdminManualFlavorInputs();
                 compileAdminReports();
             } else {
                 alert("Incorrect administrative security passcode.");
@@ -2103,7 +2767,7 @@
 
                 const tr = document.createElement('tr');
                 tr.innerHTML = `
-                    <td>${order.timestamp || 'N/A'}</td>
+                    <td>${order.timestamp || 'N/A'}<br><small>CustID: ${order.customerId || 'N/A'}</small><br><small>OrdID: ${order.orderId || 'N/A'}</small></td>
                     <td><strong>${order.name}</strong><br><small>${order.phone}</small><br><small>${order.email || ''}</small></td>
                     <td>${order.items}</td>
                     <td><strong>${order.mode.toUpperCase()}</strong><br><small>${order.address}</small></td>
@@ -2187,15 +2851,16 @@
         }
 
         function openDirectWhatsAppQuery() {
-            window.open(`https://api.whatsapp.com/send?phone=${TARGET_PHONE_WHATSAPP}&text=${encodeURIComponent("Hi Cacao & Crust! I would like to chat with a baker regarding custom cookie options.")}`, '_blank');
+            window.open(`https://api.whatsapp.com/send?phone=${TARGET_PHONE_WHATSAPP}&text=${encodeURIComponent("Hi Cacao & Crust, I would like to chat with a baker regarding your cookie menu!")}`, '_blank');
         }
 
         function openBulkWhatsAppQuery() {
-            window.open(`https://api.whatsapp.com/send?phone=${TARGET_PHONE_WHATSAPP}&text=${encodeURIComponent("Hi Cacao & Crust! I would like to request custom bulk/catering pricing for an upcoming event.")}`, '_blank');
+            window.open(`https://api.whatsapp.com/send?phone=${TARGET_PHONE_WHATSAPP}&text=${encodeURIComponent("Hi Cacao & Crust, I am planning a celebration / corporate event and would like to request custom bulk pricing!")}`, '_blank');
         }
 
         window.onload = function() {
             configureCutoffLogic();
+            setBoxSize(4, 299);
         };
     </script>
 </body>
