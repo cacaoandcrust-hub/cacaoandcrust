@@ -1505,9 +1505,9 @@
                 <button type="button" onclick="closeProductModal()" style="background:none; border:none; color:var(--accent-soft); font-size:1.4rem; cursor:pointer;"><i class="fa-solid fa-xmark"></i></button>
             </div>
             <div class="product-modal-body">
-                <div class="modal-img-container">
+                <!-- <div class="modal-img-container">
                     <img id="modal-product-img" src="" alt="" class="infinite-rotate">
-                </div>
+                </div> -->
                 <div class="modal-info-grid">
                     <div class="modal-info-block">
                         <h5><i class="fa-solid fa-info-circle" style="color:var(--accent);"></i> Description</h5>
@@ -1978,7 +1978,7 @@
             const flavor = MASTER_MENU_FLAVORS.find(f => f.name === flavorName);
             if (!flavor) return;
 
-            document.getElementById('modal-product-img').src = flavor.img;
+            // document.getElementById('modal-product-img').src = flavor.img;
             document.getElementById('modal-product-title').innerText = flavor.name;
             
             // document.getElementById('modal-product-img').alt = flavor.name;
