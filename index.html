@@ -127,7 +127,7 @@
         }
 
         .brand-name h1 {
-             font-family: 'Inter', sans-serif;;
+             font-family: 'Inter', sans-serif;
             font-size: clamp(1.2rem, 4vw, 2.2rem);
             letter-spacing: 1.5px;
             font-weight: 800;
@@ -1254,6 +1254,7 @@
             border-top: 4px solid var(--accent);
         }
         footer h3 {
+             font-family: 'Inter', sans-serif;
             font-size: 1.8rem;
             color: var(--accent);
             margin-bottom: 12px;
@@ -1505,9 +1506,9 @@
                 <button type="button" onclick="closeProductModal()" style="background:none; border:none; color:var(--accent-soft); font-size:1.4rem; cursor:pointer;"><i class="fa-solid fa-xmark"></i></button>
             </div>
             <div class="product-modal-body">
-                <!-- <div class="modal-img-container">
-                    <img id="modal-product-img" src="" alt="" class="infinite-rotate">
-                </div> -->
+                <!-- <div class="modal-img-container"> -->
+                    <!-- <img id="modal-product-img" src="" alt="" class="infinite-rotate"> -->
+                <!-- </div> -->
                 <div class="modal-info-grid">
                     <div class="modal-info-block">
                         <h5><i class="fa-solid fa-info-circle" style="color:var(--accent);"></i> Description</h5>
@@ -1557,7 +1558,7 @@
                 <div class="hanging-string"></div>
                 <div class="hanging-sign-board">
                     <h4><i class="fa-solid fa-store-slash"></i> Orders Closed For The Week</h4>
-                    <p>We've reached maximum bake capacity for this week! (Closed Wednesday 11:59 PM). Now accepting pre-bookings for next weekend.</p>
+                    <p>Orders are currently closed. Bookings reopen every Saturday at 12:00 PM and close Wednesday at 11:59 PM. Now accepting pre-bookings for next weekend.</p>
                 </div>
             </div>
 
@@ -2053,27 +2054,58 @@
             
             let targetedSaturday = new Date();
             
-            if (currentDayIndex >= 4 || currentDayIndex === 0) { 
-                isSlotClosed = true;
-                let daysUntilNextSaturday = 7 + (6 - currentDayIndex);
-                if (currentDayIndex === 0) daysUntilNextSaturday = 6;
-                targetedSaturday.setDate(now.getDate() + daysUntilNextSaturday);
-                
-                globalTargetSaturdayDateString = formatDateString(targetedSaturday);
-                hangingSign.style.display = 'flex';
-                
-                banner.classList.add('closed-banner');
-                banner.innerHTML = `⛔ <strong>Orders for this week are CLOSED.</strong> Pre-bookings open for NEXT week. Fulfillment window: Saturday (${globalTargetSaturdayDateString}) to Monday across Chennai!`;
-            } else {
-                isSlotClosed = false;
-                let daysToSaturday = 6 - currentDayIndex;
-                targetedSaturday.setDate(now.getDate() + daysToSaturday);
-                globalTargetSaturdayDateString = formatDateString(targetedSaturday);
-                
-                hangingSign.style.display = 'none';
-                banner.classList.remove('closed-banner');
-                banner.innerHTML = `<i class="fa-solid fa-calendar-days"></i> Order slots close every Wednesday at 11:59 PM. Delivered across Chennai (Saturday to Monday Window) or Fresh Saturday Pickup (${globalTargetSaturdayDateString}) at <a href="https://www.google.com/maps/place/WARZONE+Gaming+cafe/@12.9774547,80.1376503,17z/data=!3m1!4b1!4m6!3m5!1s0x3a525f1ecae456df:0x8798cd4e56d1b89f!8m2!3d12.9774547!4d80.1402252!16s%2Fg%2F11zcp3cbhn?entry=ttu&g_ep=EgoyMDI2MDcxMy4wIKXMDSoASAFQAw%3D%3D" target="_blank">WARZONE Pammal</a>!`;
-            }
+            if (
+    currentDayIndex === 4 || // Thursday
+    currentDayIndex === 5 || // Friday
+    (currentDayIndex === 6 && now.getHours() < 12) // Saturday before 12 PM
+) {
+    isSlotClosed = true;
+
+    let daysUntilNextSaturday;
+
+    if (currentDayIndex === 6) {
+        // Saturday before 12 PM → next Saturday
+        daysUntilNextSaturday = 7;
+    } else if (currentDayIndex === 0) {
+        // Sunday → next Saturday
+        daysUntilNextSaturday = 6;
+    } else {
+        // Thursday / Friday → next Saturday
+        daysUntilNextSaturday = 13 - currentDayIndex;
+    }
+
+    targetedSaturday.setDate(now.getDate() + daysUntilNextSaturday);
+
+    globalTargetSaturdayDateString = formatDateString(targetedSaturday);
+    hangingSign.style.display = 'flex';
+
+    banner.classList.add('closed-banner');
+    banner.innerHTML = `⛔ <strong>Orders for this week are CLOSED.</strong> Pre-bookings open Saturday at 12:00 PM. Fulfillment window: Saturday (${globalTargetSaturdayDateString}) to Monday across Chennai!`;
+
+} else {
+    // OPEN: Saturday 12 PM → Wednesday 11:59 PM
+    isSlotClosed = false;
+
+    let daysToSaturday;
+
+    if (currentDayIndex === 6) {
+        // Saturday after 12 PM → today
+        daysToSaturday = 0;
+    } else {
+        // Covers Sunday–Wednesday
+        daysToSaturday = 6 - currentDayIndex;
+    }
+
+    targetedSaturday.setDate(now.getDate() + daysToSaturday);
+
+    globalTargetSaturdayDateString = formatDateString(targetedSaturday);
+
+    hangingSign.style.display = 'none';
+
+    banner.classList.remove('closed-banner');
+
+    banner.innerHTML = `<i class="fa-solid fa-calendar-days"></i> Orders open Saturday at 12:00 PM and close Wednesday at 11:59 PM. Delivered across Chennai (Saturday to Monday Window) or Fresh Saturday Pickup (${globalTargetSaturdayDateString}) at <a href="https://www.google.com/maps/place/WARZONE+Gaming+cafe/@12.9774547,80.1376503,17z/data=!3m1!4m6!3m5!1s0x3a525f1ecae456df:0x8798cd4e56d1b89f!8m2!3d12.9774547!4d80.1402252!16s%2Fg%2F11zcp3cbhn?entry=ttu&g_ep=EgoyMDI2MDcxMy4wIKXMDSoASAFQAw%3D%3D" target="_blank">WARZONE Pammal</a>!`;
+}
 
             const dayLabels = document.querySelectorAll('.fulfillment-day-label');
             dayLabels.forEach(el => el.innerText = `Saturday, ${globalTargetSaturdayDateString}`);
@@ -2392,7 +2424,7 @@
             event.preventDefault();
 
             if (isSlotClosed) {
-                alert("Order window is closed for the week! Please check back next week.");
+                alert("Order window is closed for the week! Orders reopen Saturday at 12:00 PM.");
                 return;
             }
 
@@ -2419,7 +2451,7 @@
             let finalPayableAmount = subtotal + shippingFee;
 
             const razorpayOptions = {
-                key: "rzp_live_ANONYMOUS_KEY_PLACEHOLDER",
+                key: "9c9YlZsfjeqae9NcpCNsZbwY",
                 amount: finalPayableAmount * 100, 
                 currency: "INR",
                 name: "Cacao & Crust",
