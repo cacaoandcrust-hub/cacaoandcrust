@@ -1461,9 +1461,12 @@
                     <thead>
                         <tr>
                             <th>Timestamp</th>
+                            <th>Customer ID</th>
+                            <th>Order ID</th>
                             <th>Customer Details</th>
                             <th>Items Curated</th>
                             <th>Fulfillment & Address</th>
+                            <th>Gift Note</th>
                             <th>Payment ID / Source</th>
                             <th>Action</th>
                         </tr>
@@ -1777,52 +1780,208 @@
     <!-- Firebase SDK Modular Scripts -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-        import { 
-            getFirestore, 
-            collection, 
-            addDoc, 
-            onSnapshot, 
-            deleteDoc, 
-            doc 
+        import {
+            getFirestore,
+            collection,
+            addDoc,
+            getDocs,
+            onSnapshot,
+            deleteDoc,
+            updateDoc,
+            doc
         } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
-        
-const firebaseConfig = {
-  apiKey: "AIzaSyA3TGhWOT7phqfpbYzThFe-Couhxj78f6U",
-  authDomain: "cacaoandcrust-49eb9.firebaseapp.com",
-  projectId: "cacaoandcrust-49eb9",
-  storageBucket: "cacaoandcrust-49eb9.firebasestorage.app",
-  messagingSenderId: "851462987688",
-  appId: "1:851462987688:web:ab8f18426fe575e2af479d",
-  measurementId: "G-79E4M8YL7V"
-};
+        // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+        const firebaseConfig = {
+            apiKey: "AIzaSyA3TGhWOTph7qfpbYzThFe-Couhxj78f6U",
+            authDomain: "cacaoandcrust-49eb9.firebaseapp.com",
+            projectId: "cacaoandcrust-49eb9",
+            storageBucket: "cacaoandcrust-49eb9.firebasestorage.app",
+            messagingSenderId: "851462987688",
+            appId: "1:851462987688:web:ab8f18426fe575e2af479d",
+            measurementId: "G-79E4M8YL7V"
+        };
 
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
+        const ordersCollection = collection(db, "orders");
+        const reviewsCollection = collection(db, "reviews");
 
-        onSnapshot(collection(db, "orders"), (snapshot) => {
-            window.adminBookingsDb = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-            if(typeof compileAdminReports === 'function') compileAdminReports();
-        });
+        function normalizeCustomerPhone(phone) {
+            let digits = String(phone || '').replace(/\D/g, '');
+            if (digits.length === 12 && digits.startsWith('91')) digits = digits.slice(2);
+            return digits;
+        }
 
-        onSnapshot(collection(db, "reviews"), (snapshot) => {
-            window.customerReviewsArray = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-            if(typeof renderCustomerReviews === 'function') renderCustomerReviews();
-        });
+        function normalizeCustomerEmail(email) {
+            return String(email || '').trim().toLowerCase();
+        }
+
+        function generateStableCustomerId(seed) {
+            let hash = 0;
+            const value = String(seed || 'customer');
+            for (let i = 0; i < value.length; i++) {
+                hash = ((hash << 5) - hash) + value.charCodeAt(i);
+                hash |= 0;
+            }
+            return `CUST-${Math.abs(hash).toString(36).toUpperCase().padStart(7, '0').slice(0, 7)}`;
+        }
+
+        function createUniqueOrderId() {
+            const now = new Date();
+            const pad = n => String(n).padStart(2, '0');
+            const stamp = `${now.getFullYear()}${pad(now.getMonth()+1)}${pad(now.getDate())}-${pad(now.getHours())}${pad(now.getMinutes())}${pad(now.getSeconds())}`;
+            const randomPart = (window.crypto && crypto.randomUUID)
+                ? crypto.randomUUID().split('-')[0].toUpperCase()
+                : Math.random().toString(36).slice(2, 10).toUpperCase();
+            return `ORD-${stamp}-${randomPart}`;
+        }
+
+        async function migrateLegacyOrderIdentifiers(snapshotDocs) {
+            const customerKeyToId = new Map();
+            const docs = snapshotDocs.slice().sort((a, b) => {
+                const at = a.data().timestamp ? new Date(a.data().timestamp).getTime() : 0;
+                const bt = b.data().timestamp ? new Date(b.data().timestamp).getTime() : 0;
+                return at - bt;
+            });
+
+            for (const orderDoc of docs) {
+                const data = orderDoc.data() || {};
+                const phone = normalizeCustomerPhone(data.phone);
+                const email = normalizeCustomerEmail(data.email);
+                const keys = [];
+                if (phone) keys.push(`phone:${phone}`);
+                if (email && !email.includes('admin-manual@cacao.com')) keys.push(`email:${email}`);
+
+                let customerId = data.customerId && data.customerId !== 'ADMIN-MANUAL' ? data.customerId : null;
+                for (const key of keys) {
+                    if (customerKeyToId.has(key)) {
+                        customerId = customerKeyToId.get(key);
+                        break;
+                    }
+                }
+                if (!customerId) {
+                    const seed = keys[0] || `legacy:${orderDoc.id}`;
+                    customerId = generateStableCustomerId(seed);
+                }
+                keys.forEach(key => customerKeyToId.set(key, customerId));
+
+                const updates = {};
+                if (!data.orderId) updates.orderId = createUniqueOrderId();
+                if (!data.customerId || data.customerId === 'ADMIN-MANUAL' || data.customerId !== customerId) {
+                    updates.customerId = customerId;
+                }
+                if (Object.keys(updates).length) {
+                    try {
+                        await updateDoc(doc(db, 'orders', orderDoc.id), updates);
+                    } catch (error) {
+                        console.error('Could not migrate legacy order identifiers:', orderDoc.id, error);
+                    }
+                }
+            }
+        }
+
+        window.getCustomerIdForOrder = async function(name, email, phone) {
+            const normalizedPhone = normalizeCustomerPhone(phone);
+            const normalizedEmail = normalizeCustomerEmail(email);
+            try {
+                const snapshot = await getDocs(ordersCollection);
+                let fallbackCustomerId = null;
+                snapshot.forEach(orderDoc => {
+                    const data = orderDoc.data() || {};
+                    const orderPhone = normalizeCustomerPhone(data.phone);
+                    const orderEmail = normalizeCustomerEmail(data.email);
+                    if (data.customerId && data.customerId !== 'ADMIN-MANUAL') {
+                        if (normalizedPhone && orderPhone && normalizedPhone === orderPhone) fallbackCustomerId = data.customerId;
+                        if (!fallbackCustomerId && normalizedEmail && orderEmail && normalizedEmail === orderEmail) fallbackCustomerId = data.customerId;
+                    }
+                });
+                if (fallbackCustomerId) {
+                    localStorage.setItem('cacao_customer_id', fallbackCustomerId);
+                    return fallbackCustomerId;
+                }
+            } catch (error) {
+                console.error('Could not look up existing customer ID:', error);
+            }
+
+            const localId = localStorage.getItem('cacao_customer_id');
+            if (localId) return localId;
+            const seed = normalizedPhone ? `phone:${normalizedPhone}` : (normalizedEmail ? `email:${normalizedEmail}` : `name:${String(name || '').trim().toLowerCase()}`);
+            const customerId = generateStableCustomerId(seed);
+            localStorage.setItem('cacao_customer_id', customerId);
+            return customerId;
+        };
+
+        // Firestore is the single source of truth for the admin order report.
+        // The initial snapshot includes ALL existing documents, so older orders
+        // are displayed as well as newly placed orders.
+        onSnapshot(
+            ordersCollection,
+            (snapshot) => {
+                window.adminBookingsDb = snapshot.docs.map(orderDoc => ({
+                    id: orderDoc.id,
+                    ...orderDoc.data()
+                }));
+
+                window.adminBookingsDb.sort((a, b) => {
+                    const aTime = a.timestamp ? new Date(a.timestamp).getTime() : 0;
+                    const bTime = b.timestamp ? new Date(b.timestamp).getTime() : 0;
+                    return aTime - bTime;
+                });
+
+                window.firebaseOrdersReady = true;
+
+                migrateLegacyOrderIdentifiers(snapshot.docs).catch(error => {
+                    console.error('Legacy order identifier migration failed:', error);
+                });
+
+                if (typeof compileAdminReports === 'function') {
+                    compileAdminReports();
+                }
+            },
+            (error) => {
+                console.error("Firebase orders listener error:", error);
+                window.firebaseOrdersReady = false;
+                if (typeof compileAdminReports === 'function') {
+                    compileAdminReports();
+                }
+            }
+        );
+
+        onSnapshot(
+            reviewsCollection,
+            (snapshot) => {
+                window.customerReviewsArray = snapshot.docs.map(reviewDoc => ({
+                    id: reviewDoc.id,
+                    ...reviewDoc.data()
+                }));
+
+                if (typeof renderCustomerReviews === 'function') {
+                    renderCustomerReviews();
+                }
+            },
+            (error) => {
+                console.error("Firebase reviews listener error:", error);
+            }
+        );
 
         window.saveOrderToFirebase = async function(orderData) {
             try {
-                await addDoc(collection(db, "orders"), orderData);
+                const savedDoc = await addDoc(ordersCollection, orderData);
+                return savedDoc.id;
             } catch (e) {
-                console.error("Error adding document to Firebase: ", e);
+                console.error("Error adding document to Firebase:", e);
+                throw e;
             }
         };
 
         window.saveReviewToFirebase = async function(reviewData) {
             try {
-                await addDoc(collection(db, "reviews"), reviewData);
+                const savedDoc = await addDoc(reviewsCollection, reviewData);
+                return savedDoc.id;
             } catch (e) {
-                console.error("Error adding review to Firebase: ", e);
+                console.error("Error adding review to Firebase:", e);
+                throw e;
             }
         };
 
@@ -1830,7 +1989,8 @@ const firebaseConfig = {
             try {
                 await deleteDoc(doc(db, "orders", id));
             } catch (e) {
-                console.error("Error removing order from Firebase: ", e);
+                console.error("Error removing order from Firebase:", e);
+                throw e;
             }
         };
 
@@ -1838,7 +1998,8 @@ const firebaseConfig = {
             try {
                 await deleteDoc(doc(db, "reviews", id));
             } catch (e) {
-                console.error("Error removing review from Firebase: ", e);
+                console.error("Error removing review from Firebase:", e);
+                throw e;
             }
         };
     </script>
@@ -1928,18 +2089,18 @@ const firebaseConfig = {
         window.customerReviewsArray = [];
 
         function getOrCreateCustomerId() {
-            let customerId = localStorage.getItem('cacao_customer_id');
-            if (!customerId) {
-                const randomNum = Math.floor(10000 + Math.random() * 90000);
-                customerId = `CUST-${randomNum}`;
-                localStorage.setItem('cacao_customer_id', customerId);
-            }
-            return customerId;
+            const customerId = localStorage.getItem('cacao_customer_id');
+            return customerId || '';
         }
 
         function generateOrderId() {
-            const randomNum = Math.floor(1000 + Math.random() * 9000);
-            return `ORD-${new Date().getFullYear()}-${randomNum}`;
+            const now = new Date();
+            const pad = n => String(n).padStart(2, '0');
+            const stamp = `${now.getFullYear()}${pad(now.getMonth()+1)}${pad(now.getDate())}-${pad(now.getHours())}${pad(now.getMinutes())}${pad(now.getSeconds())}`;
+            const randomPart = (window.crypto && crypto.randomUUID)
+                ? crypto.randomUUID().split('-')[0].toUpperCase()
+                : Math.random().toString(36).slice(2, 10).toUpperCase();
+            return `ORD-${stamp}-${randomPart}`;
         }
 
         function showMainLandingView() {
@@ -2500,15 +2661,21 @@ const firebaseConfig = {
         }
 
         async function finalizeOrderSuccessRegistry(orderPayload) {
+            const customerId = await window.getCustomerIdForOrder(orderPayload.name, orderPayload.email, orderPayload.phone);
             const registryRecord = {
                 orderId: generateOrderId(),
-                customerId: getOrCreateCustomerId(),
+                customerId: customerId,
                 timestamp: new Date().toISOString(),
                 readableDate: new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' }),
                 ...orderPayload
             };
 
-            await window.saveOrderToFirebase(registryRecord);
+            try {
+                await window.saveOrderToFirebase(registryRecord);
+            } catch (error) {
+                alert("We could not save your order to the database. Please do not retry payment until the issue is checked.");
+                return;
+            }
 
             alert(`🎉 Order Successfully Placed!\nPayment Reference: ${registryRecord.paymentId}\nWe have received your request and look forward to baking your cookies fresh!`);
             
@@ -2691,9 +2858,10 @@ const firebaseConfig = {
             const price = boxSize === 4 ? 449 : 599;
             const shipping = fulfillment === 'delivery' ? 80 : 0;
 
+            const manualCustomerId = await window.getCustomerIdForOrder(name, "admin-manual@cacao.com", phone);
             const manualOrderRecord = {
                 orderId: generateOrderId(),
-                customerId: "ADMIN-MANUAL",
+                customerId: manualCustomerId,
                 timestamp: new Date().toISOString(),
                 readableDate: new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' }),
                 paymentId: "OFFLINE-ADMIN-ENTRY",
@@ -2713,14 +2881,19 @@ const firebaseConfig = {
                 total: price + shipping
             };
 
-            await window.saveOrderToFirebase(manualOrderRecord);
+            try {
+                await window.saveOrderToFirebase(manualOrderRecord);
+            } catch (error) {
+                alert("The manual order could not be saved to the database. Please try again.");
+                return;
+            }
             alert("✓ Manual order successfully registered into database!");
             document.getElementById('admin-manual-order-form').reset();
             initAdminManualOrderSelectors();
         }
 
         function compileAdminReports() {
-            const bookings = window.adminBookingsDb;
+            const bookings = Array.isArray(window.adminBookingsDb) ? window.adminBookingsDb : [];
             let totalOrders = bookings.length;
             let grossRev = 0;
             let pickupCount = 0;
@@ -2769,10 +2942,13 @@ const firebaseConfig = {
                 const tr = document.createElement('tr');
                 tr.innerHTML = `
                     <td>${b.readableDate || b.timestamp}</td>
+                    <td><code>${b.customerId || '—'}</code></td>
+                    <td><code>${b.orderId || '—'}</code></td>
                     <td><strong>${b.name}</strong><br><small>${b.phone}</small><br><small>${b.email}</small></td>
-                    <td>${itemsDesc}<br><small style="color:var(--text-light);">Note: ${b.note || 'None'}</small></td>
-                    <td><strong>${b.fulfillment.toUpperCase()}</strong><br><small>${b.address}</small></td>
-                    <td><code>${b.paymentId}</code></td>
+                    <td>${itemsDesc}</td>
+                    <td><strong>${(b.fulfillment || '').toUpperCase()}</strong><br><small>${b.address || ''}</small></td>
+                    <td style="white-space: pre-wrap; word-break: break-word; min-width: 220px;">${b.note || 'None'}</td>
+                    <td><code>${b.paymentId || ''}</code></td>
                     <td><button class="btn btn-danger" onclick="deleteAdminOrder('${b.id}')">Delete</button></td>
                 `;
                 tbody.appendChild(tr);
@@ -2781,15 +2957,19 @@ const firebaseConfig = {
 
         async function deleteAdminOrder(id) {
             if (confirm("Are you sure you want to delete this booking record?")) {
-                await window.deleteOrderFromFirebase(id);
+                try {
+                    await window.deleteOrderFromFirebase(id);
+                } catch (error) {
+                    alert("The order could not be deleted from the database.");
+                }
             }
         }
 
         function downloadExcelReport() {
-            let csvContent = "data:text/csv;charset=utf-8,OrderId,Date,CustomerName,Phone,Fulfillment,Total,PaymentId,Items\n";
+            let csvContent = "data:text/csv;charset=utf-8,CustomerId,OrderId,Date,CustomerName,Phone,Fulfillment,Total,PaymentId,Items\n";
             window.adminBookingsDb.forEach(b => {
                 let itemsStr = b.items ? b.items.map(i => `${i.title} (${i.flavorString})`).join(' | ') : '';
-                let row = [b.orderId, b.readableDate, `"${b.name}"`, b.phone, b.fulfillment, b.total, b.paymentId, `"${itemsStr}"`];
+                let row = [b.customerId || '', b.orderId || '', b.readableDate, `"${b.name}"`, b.phone, b.fulfillment, b.total, b.paymentId, `"${itemsStr}"`];
                 csvContent += row.join(",") + "\n";
             });
             const encodedUri = encodeURI(csvContent);
