@@ -1786,15 +1786,16 @@
             doc 
         } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
-        const firebaseConfig = {
-            apiKey: "AIzaSyA3TGhWOT7phqfpbYzThFe-Couhxj78f6U",
-            authDomain: "cacaoandcrust-49eb9.firebaseapp.com",
-            projectId: "cacaoandcrust-49eb9",
-            storageBucket: "cacaoandcrust-49eb9.firebasestorage.app",
-            messagingSenderId: "851462987688",
-            appId: "1:851462987688:web:6f990f41bdad7ba8af479d",
-            measurementId: "G-GJ39Z3DYLE"
-        };
+       // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+const firebaseConfig = {
+  apiKey: "AIzaSyA3TGhWOT7phqfpbYzThFe-Couhxj78f6U",
+  authDomain: "cacaoandcrust-49eb9.firebaseapp.com",
+  projectId: "cacaoandcrust-49eb9",
+  storageBucket: "cacaoandcrust-49eb9.firebasestorage.app",
+  messagingSenderId: "851462987688",
+  appId: "1:851462987688:web:ab8f18426fe575e2af479d",
+  measurementId: "G-79E4M8YL7V"
+};
 
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
